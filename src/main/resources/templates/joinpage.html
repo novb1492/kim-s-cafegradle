@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+  </head>
+<body>
+  <a href="index">홈</a>  
+<br>
+    <form  id="target" action="/auth/joinprocess" method="post">
+    이메일 <input type="email" name="email" id="useremail"  placeholder="이메일을 적어 주세요">                   
+    <div id="emailcheck"></div>
+    비밀번호<input id="userpwd" type="password" name="pwd" placeholder="10자 이상으로 입력해주세요">
+    <div id="passwordlength"></div>
+    이름<input type="text" id="username" name="name" placeholder="이름을 적어주세요">
+    <div id="namecheck"></div>
+    </form>
+    <br>
+    <input type="button" value="완료" id="button">
+    
+
+  <script type="text/javascript"> 
+  $(function()
+  {
+    var check=false,check2=false,check3=false,check4=false;
+    $('#userpwd').on('keyup',function(){
+      if($('#userpwd').val().length<4)
+      {
+        $('#userpwd').css('background-color','pink');
+        $('#passwordlength').html("비밀번호가 짧습니다");
+        check=false;
+      }
+      else
+      {
+        $('#userpwd').css('background-color','blue');
+        $('#passwordlength').html("");
+        check=true;
+      }
+    })
+      $('#useremail').on('keyup',function(){
+      
+        if($('#useremail').val().length>1)
+        {
+            $.ajax({
+            type:"post",
+            url:"/auth/comfirm",
+            data:{
+              "email":$('#useremail').val()
+            },
+            success:function(data){
+              console.log(data);
+              if(data)
+              {
+                $('#useremail').css("background-color","blue");
+                $('#emailcheck').html("");
+                check2=true;
+              }
+              else
+              {
+                $('#useremail').css("background-color","pink");
+                $('#emailcheck').html('중복된이메일입니다');
+                check2=false;
+              }    
+            }
+          })
+        } 
+        else
+        {
+          $('#useremail').css("background-color","pink");
+        }  
+      })
+      $('#username').on('keyup',function(){
+        if($('#username').val()=="")
+        {
+          $('#username').css("background-color","pink");
+          check3=false;
+        }
+        else
+        {
+          $('#username').css("background-color","blue");
+          check3=true;
+        }
+      })
+        $('#button').click(function(){//////////버튼 id를 적어야한다
+          if(check&check2&check3)
+          {
+            $('#target').submit();////////// 목표 form적어햐하고  20210514
+          }
+          else
+          {
+              alert(check,check2,check3);
+          }
+          
+        })
+      
+      
+  })
+      </script> 
+  
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmln:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <a href="/auth/index">홈</a>
+    <br>
+    <div th:text="${#authentication.name}"></div>
+
+    <div th:with="vo= ${boardvo}" > <!--주석이 없네 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
+            <div th:text="${'제목'+vo.getTitle}"></div>
+            <div th:text="${'작성자'+vo.getEmail}"></div>
+            내용
+            <div th:text="${vo.getContent}"></div>
+            <div th:text="${'조회수'+'&nbsp'+vo.getHit}"></div>
+
+            <div th:if="${#authentication.name==vo.getEmail}">
+                <form action="/updatecontent">
+                    <input type="hidden" id="bid" name="bid" th:value="${vo.getBid}">
+                    <input type="submit" id="update" value="수정">
+                </form>
+                    <input type="button" id="deletearticle" value="삭제">
+                </div>
+                <div id="errorcomment"></div>  
+            <br>
+            <a href="/auth/boardlist">게시판</a>
+            <br>
+            댓글
+            <div sec:authorize="isAuthenticated()">
+                <input type="text" id="comment" ><!--본문-->
+                <input type="hidden" id="bid" th:value="${vo.getBid}">
+                <input type="hidden" id="email" th:value="${#authentication.name}">
+                <input type="button" id="button" value="완료">
+            </div>
+    </div>
+            <div th:each="comment : ${array}">
+                작성자  <div th:text="${comment.getEmail}"></div>
+                내용    <input type="text"  class="commentinput" th:value="${comment.getComment}" disabled></input>
+                <div th:if="${#authentication.name==comment.getEmail}">
+                    <input type="hidden" class="cid" th:value="${comment.getCid}">
+                    <input type="button" class="updatecomment" value="수정">
+                    <form action="/deletecomment" method="POST">
+                        <input type="hidden" name="bid" th:value="${comment.getBid}">
+                        <input type="hidden" name="cid" th:value="${comment.getCid}">
+                        <input type="submit" value="삭제">
+                    </form>
+                </div>    
+                <div sec:authorize="!isAuthenticated()">
+                    <a href="#" class="replybutton">답글</a>
+                </div>
+            </div>
+            <div th:if="${currentpage<totalpage}">
+                <form action="/auth/content">
+                    <input type="hidden" name="bid" th:value="${boardvo.getBid}">
+                    <input type="hidden" name="page" th:value="${currentpage+1}">
+                    <input type="submit" value="다음">
+                </form>
+           </div>
+                <div th:if="${currentpage>1}">
+                    <form action="/auth/content">
+                        <input type="hidden" name="bid" th:value="${boardvo.getBid}">
+                        <input type="hidden" name="page" th:value="${currentpage-1}">
+                        <input type="submit" value="이전">
+                    </form>
+                </div>
+            <div >[[${currentpage}]]/[[${totalpage}]]</div>
+<script>
+    
+$(function()
+{
+    $('.updatecomment').click(function(){
+        $('.commentinput').removeAttr('disabled');
+    })
+    $('.replybutton').click(function(){
+        $(this).append("<br><input type='text' class='reply' name='reply' placeholder='답글을 입력해주세요'><br>");
+        $(this).append("<input type='button' class='replyinsertbutton'  value='완료'>");
+        $(this).append("<input type='button' class='replycanclebutton'  value='취소'>");
+    });
+
+    $('#deletearticle').click(function(){
+        $.ajax({
+            type:"post",
+            url:"/deletearticle",
+            data:{
+                "bid":$('#bid').val(),
+            },
+            success:function(data){
+            if(data){
+                alert('글을 삭제 했습니다');
+                location.href="/auth/boardlist";
+            }else{
+                alert('삭제에 실패 했습니다 다시 시도 바랍니다');
+            }
+        }
+        })
+    })
+    $('#replybutton').click(function(){
+        $('#reply').append("<input type='text' name='reply' placeholder='댓글을 입력해주세요'>");
+        $('#canclereplybutton').append('<input type="button" id="canclereply" value="취소">');
+    })
+    $('#canclereplybutton').click(function(){
+        $('#replyarea').remove();
+    })
+    $('#comment').keyup(function(){
+        if( $('#comment').val().length>50)
+        {
+            $('#comment').css('background-color','pink');
+        }
+        else
+        {
+            $('#comment').css('background-color','white');
+        }
+    })
+    $('#button').click(function(){
+        $.ajax({
+            type:"post",
+            url:"/insertcomment",
+            data:{
+                "bid":$('#bid').val(),
+                "comment":$('#comment').val(),
+                "email":$('#email').val()
+            },
+            success:function(data){
+            if(data){
+                location.href="/auth/content?bid="+$('#bid').val();
+            }else{
+                alert('등록에 실패 했습니다 다시 시도 바랍니다');
+            }
+        }
+        })
+    })
+    
+})
+</script>
+</body>
+</html>

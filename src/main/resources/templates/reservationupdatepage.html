@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmln:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예약변경</title>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <title>예약페이지</title>
+    <style>
+        .modal{ position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;}
+        .modal_content{width:400px; height:200px;background:#fff; border-radius:10px;position:relative; top:50%; left:50%;
+        margin-top:-100px; margin-left:-200px;text-align:center;box-sizing:border-box; padding:74px 0;line-height:23px; cursor:pointer;}
+    </style>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()"><!--else문을 모르겠다-->
+        <div sec:authentication="name" ></div>
+        <a href="/mypage">마이페이지</a>
+        <a href="/logout">로그아웃</a>
+        <a href="/reservationcanclepage">예약취소</a>
+    </div>
+
+        <!--<form action="/reservationprocess" method="POST"> 보단 이제 ajax가 훨씬 디테일 하게 컨트롤된다-->
+        a-1<input type="radio"  name="radio" class="seat" onclick="choiceseat('a-1')" ><!--radio중복선택 막는건 name을 통일하면 막힌다20210525-->
+        a-2<input type="radio" name="radio"  class="seat" onclick="choiceseat('a-2')">
+            <div class="modal">
+                <div class="modal_content">
+                    <br>
+                    예약시간
+                    <br>
+                       <div id="requesthourdiv"></div>
+                    <br>
+                    <input type="hidden" id="remail"  th:value="${#authentication.name}"><!--#붙히고 꺼내쓰면된다!20210528-->
+                    <input type="hidden" id="rid" th:value="${reservationvo.getRid}">
+                    <input type="hidden" id="created" th:value="${reservationvo.getCreated}">
+                    <input type="hidden" id="rname"  value="김준영">
+                    <input type="button" id="button"  value="예약">
+                    <input type="button" id="canclebutton" value="취소">
+                </div>
+            </div>
+    <!--</form>--><!--이렇게 내가 생각하던대로 되는데 1시간동안 삽질 했네 미친 20210524-->
+
+<script>
+    var seat;
+    var requesthour = []; // key 값을 담을 배열
+    var alreadytime=[];
+    var length;
+    function choiceseat(value){
+        seat=value;
+    }
+    $(function(){
+        $('.seat').click(function(){
+            $('.modal').fadeIn();
+
+            $.ajax({
+                type:"post",
+                url:"/reservationconfrim",
+            data:{
+               "seat":seat,
+            },
+            success:function(data){
+                if(data!=null){
+
+                    alreadytime=data;//예약가능한 시간을 배열로 받음
+                    for(var i=0;i<alreadytime.length;i++){ 
+                        var ii=alreadytime[i]+1;
+                         $('#requesthourdiv').append("<input type='checkbox' class='requesthour' name='requesthour' value='"+alreadytime[i]+"'>"+alreadytime[i]+"시~"+ii+"시");
+                    }  ///반복문 으로 input을 만들때는 append하면된다 20210528
+                }
+                else{
+                    alert('죄송합니다 예약에 실패 했습니다 예약이 다 찾거나 일시적 오류입니다');
+                    out();
+                }  
+            }
+            })      
+        })
+        $('#button').click(function(){
+            $('input[name="requesthour"]:checkbox:checked').each(function(){///check박스 값 가져오려면 name값 지정해 넣어주면돤다20210526
+                requesthour.push($(this).val());
+            });
+            if(requesthour.length==1){
+                $.ajax({
+                type:"post",
+                url:"/reservationupdateprocess",
+                data:{
+                "seat":seat,
+                "requesthour":requesthour,
+                "remail":$('#remail').val(),
+                "rname":$('#rname').val(),
+                "rid":$('#rid').val(),
+                "created":$('#created').val(),
+                },
+                    success:function(data){
+                        if(data){
+                            alert('변경성공'); 
+                            out();
+                        }else{
+                            alert('죄송합니다 예약에 실패 했습니다 예약이 다 찾거나 일시적 오류입니다');
+                            out();
+                        }  
+                        }
+                    })
+            }else{
+                alert("한개만 선택해 주세요");
+                requesthour=[];///이게 없으면 이전 체크박스  사이즈 초기화가 안된다 20210529
+            }
+           
+        })
+        $('#canclebutton').click(function(){
+           out();
+        })
+    })
+    function out(){
+        $('.modal').fadeOut();
+        $( '#requesthourdiv' ).html(" ");///이게 없으면 체크박스가 계속 생긴다 20210528
+    }
+</script>
+</body>
+</html>
