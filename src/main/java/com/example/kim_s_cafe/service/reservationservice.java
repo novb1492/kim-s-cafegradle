@@ -2,17 +2,10 @@ package com.example.kim_s_cafe.service;
 
 
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
 import javax.transaction.Transactional;
-
-
 import com.example.kim_s_cafe.model.history.historyvo;
 import com.example.kim_s_cafe.model.reservation.reservationdao;
 import com.example.kim_s_cafe.model.reservation.reservationdto;
@@ -26,7 +19,7 @@ public class reservationservice {
     private final boolean yes=true;
     private final boolean no=false;
     private final byte opentime=6;
-    private final byte endtime=23;
+    private final byte endtime=26;
 
     @Autowired
     private reservationdao reservationdao;
@@ -34,11 +27,12 @@ public class reservationservice {
     private historyservice historyservice;
     @Autowired
     private timestampservice timestampservice;
+    @Autowired
+    private utilservice utilservice;
 
     
     public List<Boolean> confirmdate(List<reservationvo>array) {
-
-        if(array.size()>0){
+        if(array.size()>0){ 
             List<Boolean>checkdate=new ArrayList<>();
             for(int i=0;i<array.size();i++){
                 timestampservice.setdates(array.get(i).getReservationdatetime());
@@ -58,8 +52,7 @@ public class reservationservice {
         try {
             reservationvo.setSeat(reservationvo.getSeat());
             reservationvo.setRequesthour(reservationvo.getRequesthour());
-            Timestamp timestamp=gettimestamp(reservationvo.getRequesthour());
-            reservationvo.setReservationdatetime(timestamp);
+            reservationvo.setReservationdatetime(utilservice.RequestHourToTimestamp(reservationvo.getRequesthour()));
             reservationvo.setCreated(reservationvo.getCreated());
             reservationdao.save(reservationvo);
             historyservice.updatehistory(reservationvo);
@@ -102,11 +95,9 @@ public class reservationservice {
     public List<Integer> reservationconfirm(String seat) {
 
         List<Integer>array2=new ArrayList<>();
-	    int hour = gethour();
+	    int hour = utilservice.gethour();
         try {
-
             List<reservationvo>array=reservationdao.findBySeat(seat);
-        
             if(!array.isEmpty()){///비어있나 확인해야함
                 for(int ii=opentime;ii<=endtime;ii++){
                     for(int i=0;i<array.size();i++){
@@ -137,12 +128,10 @@ public class reservationservice {
         return null;
     }
     public boolean insertreservation(reservationdto reservationdto,List<Integer> requesthour) {
-        
             try {  
                 for(int i=0;i<requesthour.size();i++){
                     reservationdto.setRequesthour(requesthour.get(i));
-                    Timestamp timestamp=gettimestamp(requesthour.get(i));
-                    reservationdto.setReservationdatetime(timestamp);
+                    reservationdto.setReservationdatetime(utilservice.RequestHourToTimestamp(requesthour.get(i)));
                     reservationvo reservationvo=new reservationvo(reservationdto);///20210528그래준영아 객체를 비워줘야지.. 안그러면 update만 되잖아..
                     reservationdao.save(reservationvo);  
                     historyvo historyvo= historyservice.inserthistory(reservationvo);
@@ -155,26 +144,9 @@ public class reservationservice {
             return no;  
     }
     public void check24() {
-        if(gethour()==0){
+        if(utilservice.gethour()==0){
             reservationdao.deleteAll();
             System.out.println("24시가지나  모든 예약이 삭제됩니다");
         }
-    }
-    public int gethour() {
-        Calendar cal = Calendar.getInstance();
-	    int hour = cal.get(Calendar.HOUR_OF_DAY);
-        System.out.println(hour+"현재시간");
-        return hour;  
-    }
-    private Timestamp gettimestamp(int requesthour){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-        String today = sdf.format(date);
-        String reservationdatetime=today+" "+requesthour+":0:0";
-
-        return Timestamp.valueOf(reservationdatetime);
-
-    }
- 
-    
+    }   
 }

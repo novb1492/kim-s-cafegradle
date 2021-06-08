@@ -13,7 +13,6 @@ import com.example.kim_s_cafe.email.EmailUtilImpl;
 import com.example.kim_s_cafe.model.board.boarddto;
 import com.example.kim_s_cafe.model.comment.commentvo;
 import com.example.kim_s_cafe.model.reservation.reservationdto;
-import com.example.kim_s_cafe.model.reservation.reservationvo;
 import com.example.kim_s_cafe.model.user.userdto;
 import com.example.kim_s_cafe.service.boardservice;
 import com.example.kim_s_cafe.service.commentservice;

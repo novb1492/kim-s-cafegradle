@@ -18,9 +18,9 @@
     <div th:if="${uservo.getEmailcheck()!='true'}">
         <form action="/emailpro" method="POST">
             <input type="text" id="email"  th:value="${uservo.getEmail()}" disabled>
-            <input type="hidden" name="email" th:value="${uservo.getEmail()}">
-            <input type="button" id="makeinput" value="인증하기">
-            <div id="inputarea"></div>
+                <input type="hidden" name="email" th:value="${uservo.getEmail()}">
+                    <input type="button" id="makeinput" value="인증하기">
+                        <div id="inputarea"></div>
         </form>
     </div>
     <br>
