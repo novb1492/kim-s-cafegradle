@@ -4,6 +4,7 @@ package com.example.kim_s_cafe.service;
 
 import com.example.kim_s_cafe.config.security;
 import com.example.kim_s_cafe.model.user.userdao;
+import com.example.kim_s_cafe.model.user.userdto;
 import com.example.kim_s_cafe.model.user.uservo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,8 @@ public class userservice {
     private userdao userdao; 
     @Autowired
     private security security;//@Autowired해주고 
+    @Autowired
+    private utilservice utilservice; 
     
 
     public boolean checkemail(String email) {
@@ -58,15 +61,16 @@ public class userservice {
         }
         return no;
     }
-    public boolean insertmember(uservo uservo) {
+    public boolean insertmember(userdto userdto) {
 
         try {    
         BCryptPasswordEncoder encoder=security.encoderpwd();///암호리턴받고
+        uservo uservo=userdto.DtoToUservo(userdto);
         String hashpwd=encoder.encode(uservo.getPwd());//자체함수 소환해서 해쉬해주고
         uservo.setPwd(hashpwd);//셋해서
         uservo.setRole("ROLE_USER");
         uservo.setEmailcheck("false");
-        uservo.setEmailconfirmnumber(0);
+        uservo.setEmailconfirmnumber(utilservice.getrandom());
         userdao.save(uservo);///넣어준다!
         return yes;
         } catch (Exception e) {

@@ -5,10 +5,11 @@ package com.example.kim_s_cafe.contoroller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.example.kim_s_cafe.config.auth.principaldetail;
 import com.example.kim_s_cafe.model.board.boardvo;
 import com.example.kim_s_cafe.model.reservation.reservationvo;
-import com.example.kim_s_cafe.model.user.uservo;
 import com.example.kim_s_cafe.service.boardservice;
 import com.example.kim_s_cafe.service.commentservice;
 import com.example.kim_s_cafe.service.contentservice;
@@ -45,17 +46,6 @@ public class controller {
     private historyservice historyservice;
  
 
-    @PostMapping("/auth/joinprocess")
-    public String name(uservo uservo) {
-        boolean yorn=userservice.insertmember(uservo);
-        if(yorn)
-        {
-            return "loginpage";
-        }
-        else{
-            return "joinpage";
-        }
-    }
     @GetMapping("/auth/loginpage")
     public String loginpage() {
         return "loginpage";
