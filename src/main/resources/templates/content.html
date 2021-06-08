@@ -12,11 +12,13 @@
     <br>
     <div th:text="${#authentication.name}"></div>
 
-    <div th:with="vo= ${boardvo}" > <!--주석이 없네 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
-            <div th:text="${'제목'+vo.getTitle}"></div>
+            <div th:with="vo= ${boardvo}" > <!--주석이 없네 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
+            제목<input type="text" rows="30" cols="1" th:value="${vo.getTitle}" disabled><!--이방법은 이제 안쓸거지만 "${'제목'+vo.getTitle}" 이렇게 출력가능20210608 -->
             <div th:text="${'작성자'+vo.getEmail}"></div>
             내용
-            <div th:text="${vo.getContent}"></div>
+            <br>
+            <textarea cols="100" rows="50" name="content" id="content" disabled>[[${vo.getContent}]]</textarea>
+            <br>
             <div th:text="${'조회수'+'&nbsp'+vo.getHit}"></div>
 
             <div th:if="${#authentication.name==vo.getEmail}">
@@ -107,12 +109,9 @@ $(function()
         $('#replyarea').remove();
     })
     $('#comment').keyup(function(){
-        if( $('#comment').val().length>50)
-        {
+        if( $('#comment').val().length>50){
             $('#comment').css('background-color','pink');
-        }
-        else
-        {
+        }else{
             $('#comment').css('background-color','white');
         }
     })

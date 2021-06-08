@@ -26,12 +26,4 @@ public class boarddto {
 
     private Timestamp created;
 
-    public boardvo dtotovo() {
-
-        boardvo boardvo=new boardvo();
-        boardvo.setContent(this.content);
-        boardvo.setEmail(this.email);
-        boardvo.setTitle(this.title);
-        return boardvo;
-    }
 }

@@ -94,12 +94,12 @@ public class restcontroller {
     @PostMapping("writearticleprocess")
     public boolean writearticleprocess(@Valid boarddto boarddto) {
 
-      return boardservice.insertarticle(boarddto.dtotovo());
+      return boardservice.insertarticle(boarddto);
     }
     @PostMapping("updatecontentprocess")
-    public boolean updatecontentprocess(boardvo vo,@RequestParam("bid")int bid) {
+    public boolean updatecontentprocess(@Valid boarddto boarddto) {
         
-        return contentservice.updatecontent(bid, vo);
+        return contentservice.updatecontent(boarddto);
         
     }
     @PostMapping("insertcomment")

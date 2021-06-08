@@ -39,6 +39,16 @@ public class boardvo {
     @CreationTimestamp
     private Timestamp created;
 
+    public boardvo (){}
+    public boardvo (boarddto boarddto) {
+        this.bid=boarddto.getBid();
+        this.email=boarddto.getEmail();
+        this.content=boarddto.getContent();
+        this.title=boarddto.getTitle();
+        this.hit=boarddto.getHit();
+        this.created=boarddto.getCreated();
+    }
+
  
 
 
