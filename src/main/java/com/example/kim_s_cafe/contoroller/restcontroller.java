@@ -11,8 +11,8 @@ import javax.validation.Valid;
 
 import com.example.kim_s_cafe.email.EmailUtilImpl;
 import com.example.kim_s_cafe.model.board.boarddto;
-import com.example.kim_s_cafe.model.board.boardvo;
 import com.example.kim_s_cafe.model.comment.commentvo;
+import com.example.kim_s_cafe.model.reservation.reservationdto;
 import com.example.kim_s_cafe.model.reservation.reservationvo;
 import com.example.kim_s_cafe.model.user.userdto;
 import com.example.kim_s_cafe.service.boardservice;
@@ -74,23 +74,23 @@ public class restcontroller {
         return reservationservice.reservationconfirm(seat);
     }
     @PostMapping("reservationprocess")
-    public boolean reservationprocess(reservationvo reservationvo,@RequestParam(value = "requesthour[]")List<Integer> requesthour) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526
+    public boolean reservationprocess(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526
             
-            reservationservice.log(reservationvo,requesthour);        
-        return reservationservice.insertreservation(reservationvo,requesthour);
+            reservationservice.log(reservationdto,requesthour);        
+        return reservationservice.insertreservation(reservationdto,requesthour);
     }
     @PostMapping("reservationcancleprocess")
     public boolean reservationcancleprocess(@RequestParam("rid")int rid) {
         System.out.println("예약취소rid= "+rid);
         return reservationservice.deletereservation(rid);
     }
-    @PostMapping("reservationupdateprocess")
+    /*@PostMapping("reservationupdateprocess")
     public boolean reservationupdateprocess(reservationvo reservationvo,@RequestParam(value = "requesthour[]")List<Integer> requesthour) {
         
         System.out.println("변경시도");
         reservationservice.log(reservationvo, requesthour);
         return reservationservice.reservationupdate(reservationvo);
-    }
+    }*/
     @PostMapping("writearticleprocess")
     public boolean writearticleprocess(@Valid boarddto boarddto) {
 

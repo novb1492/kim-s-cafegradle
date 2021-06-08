@@ -5,7 +5,6 @@ package com.example.kim_s_cafe.contoroller;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import com.example.kim_s_cafe.config.auth.principaldetail;
 import com.example.kim_s_cafe.model.board.boardvo;
