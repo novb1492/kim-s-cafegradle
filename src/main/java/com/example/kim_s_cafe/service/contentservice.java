@@ -3,6 +3,7 @@ package com.example.kim_s_cafe.service;
 import javax.transaction.Transactional;
 
 import com.example.kim_s_cafe.model.board.boarddao;
+import com.example.kim_s_cafe.model.board.boarddto;
 import com.example.kim_s_cafe.model.board.boardvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,17 +32,15 @@ public class contentservice {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return null;
-        
+        return null; 
     }
     @Transactional
-    public boolean updatecontent(int bid, boardvo vo) {
+    public boolean updatecontent(boarddto boarddto) {
 
         try {
-            boardvo boardvo=boarddao.findById(bid).orElseThrow();
-            boardvo.setTitle(vo.getTitle());
-            boardvo.setContent(vo.getContent());
+            boardvo boardvo=boarddao.findById(boarddto.getBid()).orElseThrow();
+            boardvo.setTitle(boarddto.getTitle());
+            boardvo.setContent(boarddto.getContent());
             return yes;
         } catch (Exception e) {
             e.printStackTrace();
