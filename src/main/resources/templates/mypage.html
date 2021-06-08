@@ -16,12 +16,10 @@
     <div th:text="${uservo.getCreated()}"></div>
     <br>
     <div th:if="${uservo.getEmailcheck()!='true'}">
-        <form action="/emailpro" method="POST">
-            <input type="text" id="email"  th:value="${uservo.getEmail()}" disabled>
-                <input type="hidden" name="email" th:value="${uservo.getEmail()}">
-                    <input type="button" id="makeinput" value="인증하기">
-                        <div id="inputarea"></div>
-        </form>
+        <input type="text" id="email"  th:value="${uservo.getEmail()}" disabled>
+            <input type="hidden" name="email" th:value="${uservo.getEmail()}">
+                <input type="button" id="makeinput" value="인증하기">
+                    <div id="inputarea"></div>
     </div>
     <br>
     <a href="/showreservationcepage">예약내역</a>
@@ -39,7 +37,7 @@ $(function(){
             },
             success:function(data){
                 if(data){
-                    alert('인증완료'); 
+                    alert('인증번호전송'); 
                     out();
                 }else{
                     alert('죄송합니다 인증에 실패 했습니다 숫자가틀리거나 일시적 오류입니다');
@@ -47,7 +45,10 @@ $(function(){
                 }  
                 }
         })
-        $('#inputarea').append("<input type='text' name='randomnumber' placeholder='인증번호를 입력해주세요'><br><input type='submit' value='제출'><input type='button' id='cancleinputarea' value='취소'>")
+        $('#inputarea').append("<input type='text' name='randomnumber' placeholder='인증번호를 입력해주세요'><br><input type='button' id='emailpro' value='제출'><input type='button' id='cancleinputarea' value='취소'>")
+    })
+    $('#emailpro').click(function(){
+        alert('제출');
     })
     $('#cancleinputarea').click(function(){
         $('#inputarea').remove();

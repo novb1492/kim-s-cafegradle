@@ -35,7 +35,7 @@ public class userdto {
 
     private String emailcheck;
     
-    private int emailconfirmnumber;
+    private String emailconfirmnumber;
 
     public uservo DtoToUservo(userdto userdto) {
         uservo uservo=new uservo();

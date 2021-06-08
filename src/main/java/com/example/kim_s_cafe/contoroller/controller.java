@@ -64,6 +64,7 @@ public class controller {
     public String mypage(Model model,@AuthenticationPrincipal principaldetail principaldetail) {
     
         String email=principaldetail.getUservo().getEmail();
+        System.out.println("마이페이지이름 "+principaldetail.getUservo().getName());///uservo를 그대로 사용가능 20210608
         model.addAttribute("uservo", userservice.getinfor(email));
         return "mypage";
     }

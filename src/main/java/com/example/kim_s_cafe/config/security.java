@@ -55,8 +55,8 @@ public class security extends WebSecurityConfigurerAdapter {
          .authorizeRequests()////요청이발생
          .antMatchers("/","/auth/**","/oauth2/")////이 링크들은
          .permitAll()///허용한다
-         //.anyRequest()///그외 다른 요청운
-         //.authenticated()//인증이있어야한다(로그인)
+         .anyRequest()///그외 다른 요청운
+         .authenticated()//인증이있어야한다(로그인)
         .and()
             .formLogin()////로그인 발생시
             .loginPage("/auth/loginpage")///로그인페이지 지정

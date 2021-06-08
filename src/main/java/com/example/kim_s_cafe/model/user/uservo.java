@@ -48,5 +48,5 @@ public class uservo {
     private String emailcheck;
     
     @Column(name="emailconfirmnumber")
-    private int emailconfirmnumber;
+    private String emailconfirmnumber;
 }

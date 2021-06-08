@@ -50,11 +50,11 @@ public class userservice {
         }
         return no;
     }
-    public boolean sendrandomnumber(String email,int randomnumber) {
+    public boolean sendrandomnumber(String email,String randomnumber) {
 
         try {
             System.out.println("랜덤넘버"+randomnumber);
-            userdao.update(randomnumber, email);
+            userdao.upateEmailConfrimNum(randomnumber, email);
             return yes;
         } catch (Exception e) {
            e.printStackTrace();
@@ -70,7 +70,7 @@ public class userservice {
         uservo.setPwd(hashpwd);//셋해서
         uservo.setRole("ROLE_USER");
         uservo.setEmailcheck("false");
-        uservo.setEmailconfirmnumber(utilservice.getrandom());
+        uservo.setEmailconfirmnumber(utilservice.GetRandomNum(6));
         userdao.save(uservo);///넣어준다!
         return yes;
         } catch (Exception e) {

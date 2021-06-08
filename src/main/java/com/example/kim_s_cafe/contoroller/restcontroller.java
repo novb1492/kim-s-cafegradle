@@ -19,6 +19,8 @@ import com.example.kim_s_cafe.service.commentservice;
 import com.example.kim_s_cafe.service.contentservice;
 import com.example.kim_s_cafe.service.reservationservice;
 import com.example.kim_s_cafe.service.userservice;
+import com.example.kim_s_cafe.service.utilservice;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +42,8 @@ public class restcontroller {
     private commentservice commentservice;
     @Autowired
     private EmailUtilImpl emailUtilImpl;
+    @Autowired
+    private utilservice utilservice;
     
     @PostMapping("/auth/comfirm")
     public boolean checkemail(@RequestParam("email")String email) {
@@ -120,9 +124,9 @@ public class restcontroller {
     @PostMapping("email")
     public String email(@RequestParam("email")String email) {
         System.out.println("email전송"+email);
-        int randomnumber=8795;
-        userservice.sendrandomnumber(email,randomnumber);
-        emailUtilImpl.sendEmail("novb1492@naver.com", "스프링을 이용한 메일 전송", "인증번호는"+randomnumber+"입니다");
+        String randnum=utilservice.GetRandomNum(6);
+        userservice.sendrandomnumber(email,randnum);
+        emailUtilImpl.sendEmail("novb1492@naver.com", "스프링을 이용한 메일 전송", "인증번호는"+randnum+"입니다");
         return "email";
     }
     @PostMapping("emailpro")

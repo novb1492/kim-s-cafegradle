@@ -17,7 +17,7 @@ public interface userdao extends JpaRepository<uservo,Integer> {///얘는 인터
     @Modifying 
     @Transactional
     @Query(value = "update users u set u.emailconfirmnumber=?1 where u.email=?2",nativeQuery = true)
-    public void update(int randomnumber,String email);
+    public void upateEmailConfrimNum(String randomnumber,String email);
 
     @Query(value = "select emailconfirmnumber from users where email=?1",nativeQuery = true)
     public int findemailconfirmnumberbyemail(String email); 

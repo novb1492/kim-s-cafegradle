@@ -5,15 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
 @Service
 public class utilservice {
     
-    public int getrandom() {   
-        return 0;
-    }
     public int gethour() {
         Calendar cal = Calendar.getInstance();
 	    int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -27,5 +25,13 @@ public class utilservice {
         String reservationdatetime=today+" "+requesthour+":0:0";
 
         return Timestamp.valueOf(reservationdatetime);
+    }
+    public String GetRandomNum(int end) {
+        String num="";
+      Random random=new Random();
+        for(int i=0;i<end;i++){
+            num+=Integer.toString(random.nextInt(10));
+        }
+        return num;
     }
 }
