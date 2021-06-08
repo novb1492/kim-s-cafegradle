@@ -7,6 +7,7 @@ package com.example.kim_s_cafe.contoroller;
 
 import java.util.List;
 import com.example.kim_s_cafe.email.EmailUtilImpl;
+import com.example.kim_s_cafe.model.board.boarddto;
 import com.example.kim_s_cafe.model.board.boardvo;
 import com.example.kim_s_cafe.model.comment.commentvo;
 import com.example.kim_s_cafe.model.reservation.reservationvo;
@@ -87,8 +88,11 @@ public class restcontroller {
         return reservationservice.reservationupdate(reservationvo);
     }
     @PostMapping("writearticleprocess")
-    public boolean writearticleprocess(boardvo boardvo) {
-        
+    public boolean writearticleprocess(boarddto boarddto) {
+        boardvo boardvo=new boardvo();
+        boardvo.setContent(boarddto.getContent());
+        boardvo.setEmail(boarddto.getEmail());
+        boardvo.setTitle(boarddto.getTitle());
       return boardservice.insertarticle(boardvo);
     }
     @PostMapping("updatecontentprocess")

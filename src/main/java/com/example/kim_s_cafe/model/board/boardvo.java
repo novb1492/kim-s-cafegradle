@@ -12,7 +12,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
-
 @Data
 @Table(name="board")
 @Entity
@@ -39,6 +38,8 @@ public class boardvo {
     @Column(name="created",nullable = false)
     @CreationTimestamp
     private Timestamp created;
+
+ 
 
 
 }
