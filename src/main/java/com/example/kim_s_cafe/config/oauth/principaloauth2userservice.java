@@ -22,6 +22,7 @@ public class principaloauth2userservice extends DefaultOAuth2UserService {
     
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
         System.out.println("userrequest"+userRequest.getClientRegistration());
         System.out.println("accesstoken"+userRequest.getAccessToken());
 
@@ -47,17 +48,20 @@ public class principaloauth2userservice extends DefaultOAuth2UserService {
         String role="ROLE_USER";
         
        uservo uservo=userdao.findByEmail(email);
+      
         if(uservo==null){
-            uservo uservo2=new uservo();
-            uservo2.setEmail(email);
-            uservo2.setName(oauth2userinfor.getName());
-            uservo2.setProvider(oauth2userinfor.getProvider());
-            uservo2.setProviderid(oauth2userinfor.getProviderid());
-            uservo2.setPwd(pwd);
-            uservo2.setRole(role);
-            userdao.save(uservo2);
+            uservo=new uservo();
+            uservo.setEmail(email);
+            uservo.setName(oauth2userinfor.getName());
+            uservo.setProvider(oauth2userinfor.getProvider());
+            uservo.setProviderid(oauth2userinfor.getProviderid());
+            uservo.setPwd(pwd);
+            uservo.setRole(role);
+            uservo.setEmailcheck("true");
+            uservo.setEmailconfirmnumber(0);
+            userdao.save(uservo);
         }   
-       //회원가입 강제 진행
+       //회원가입 강제진행후 얘가 지정한 로그인성공 페이지로 보내준다
        return new principaldetail(uservo, oAuth2User.getAttributes());///principal이니 가능하다 이걸하면 authen거기로
     }
 }
