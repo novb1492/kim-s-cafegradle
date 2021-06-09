@@ -25,7 +25,7 @@ public class userservice {
     private utilservice utilservice; 
     
 
-    public boolean checkemail(String email) {
+    public boolean confrimEmail(String email) {
 
         System.out.println(email+"중복검사");
        uservo vo=userdao.findByEmail(email);
@@ -35,12 +35,12 @@ public class userservice {
         }
      return no;
     }
-    public boolean checkRandomNumber(userdto userdto) {
+    public boolean checkRandomNumber(String email,String random) {
         try {
-            String dbnumber=userdao.findByEmailRandnum(userdto.getEmail());
-            System.out.println("dbnum"+dbnumber+"rand"+userdto.getRandnum());
-            if(dbnumber.equals(userdto.getRandnum())){
-                userdao.updateEmailCheck("true", userdto.getEmail());
+            String dbnumber=userdao.findByEmailRandnum(email);
+            System.out.println("dbnum"+dbnumber+"rand"+random);
+            if(dbnumber.equals(random.trim())){
+                userdao.updateEmailCheck("true", email);
                 return yes;
             }
             
@@ -49,7 +49,7 @@ public class userservice {
         }
         return no;
     }
-    public boolean sendrandomnumber(String email,String randomnumber) {
+    public boolean sendEmailRandnum(String email,String randomnumber) {
 
         try {
             //System.out.println("랜덤넘버"+randomnumber);
@@ -60,7 +60,7 @@ public class userservice {
         }
         return no;
     }
-    public boolean insertmember(userdto userdto) {
+    public boolean insertUser(userdto userdto) {
 
         try {    
         BCryptPasswordEncoder encoder=security.encoderpwd();///암호리턴받고
@@ -84,12 +84,12 @@ public class userservice {
         System.out.println(details.getUsername()+"조회이메일");
         return details.getUsername();
     }*///공부하기 전에 쓰던방식
-    public uservo getinfor(String email) {
+    public uservo getInfor(String email) {
         uservo uservo=userdao.findByEmail(email);
         System.out.println(uservo.getName()+"다녀왔니");
         return uservo;
     }
-    public boolean checkpwdwithdbpwd(String pwd,String email) 
+    public boolean checkPwdWithDbpwd(String pwd,String email) 
     {
         BCryptPasswordEncoder bCryptPasswordEncoder=security.encoderpwd();
         String dbpwd=userdao.getpwd(email);
@@ -99,7 +99,7 @@ public class userservice {
         return no;
     }
     @Transactional
-    public boolean updatepwd(String email,String pwd) {
+    public boolean updatePwd(String email,String pwd) {
 
         try {
             BCryptPasswordEncoder bCryptPasswordEncoder=security.encoderpwd();

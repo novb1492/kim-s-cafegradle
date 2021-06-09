@@ -14,7 +14,7 @@ public class EmailUtilImpl  {
     @Autowired
     private JavaMailSender sender;//자체적으로 제공해주는 기능
 
-    public void sendEmail(String toAddress, String subject, String body) {
+    public boolean sendEmail(String toAddress, String subject, String body) {
        System.out.println(toAddress+"보낼주소");
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -24,8 +24,10 @@ public class EmailUtilImpl  {
           helper.setText(body);//내용
         } catch (MessagingException e) {
           e.printStackTrace();
+          return false;
         }
         sender.send(message);
+        return true;
       }
         
        

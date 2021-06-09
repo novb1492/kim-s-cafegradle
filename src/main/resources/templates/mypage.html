@@ -15,32 +15,33 @@
     <title>마이페이지</title>
 </head>
 <body>
-    email
-    <div sec:authentication="name"></div>
-    이름
-    <div th:text="${uservo.getName()}"></div>
-    가입일
-    <div th:text="${uservo.getCreated()}"></div>
-    <br>
-    <div th:if="${uservo.getEmailcheck()!='true'}">
-        <input type="button" class="emailconfrim" value="이메일 인증하기">
-        <input type="text" th:value="${uservo.getEmail()}" disabled>
-            <input type="button" class="makeinput" value="인증하기">
-                    <form action="/auth/emailpro" method="post">
-                        <input type="hidden" id="email" name="email" th:value="${uservo.getEmail()}">
-                        <input type="text" name="randnum" placeholder="인증번호를입력해주세요">
-                        <input type="submit" value="제출">
-                    </form>
+    <h1>마이페이지</h1>
+    <a href="index">홈</a>
+        email
+        <div sec:authentication="name"></div>
+        이름
+        <div th:text="${uservo.getName()}"></div>
+        가입일
+        <div th:text="${uservo.getCreated()}"></div>
+        <br>
+        <div th:if="${uservo.getEmailcheck()!='true'}">
+            <input type="text" th:value="${uservo.getEmail()}" disabled>
+                <input type="button" class="makeinput" value="인증하기">
+                        <form action="/auth/emailpro" method="post">
+                            <input type="hidden" id="email" name="email" th:value="${uservo.getEmail()}">
+                            <input type="text" name="randnum" placeholder="인증번호를입력해주세요">
+                            <input type="submit" value="제출">
+                        </form>
 
-    </div>
-    <div th:if="${uservo.getEmailcheck()=='true'}">
-        이메일인증이 완료되었습니다.
-    </div>
-    <br>
-    <a href="/showreservationcepage">예약내역</a>
-    <br>
-    <a href="/updatepwdpage">비밀번호 변경하러 가기</a>
-    <br>
+        </div>
+        <div th:if="${uservo.getEmailcheck()=='true'}">
+            이메일인증이 완료되었습니다.
+        </div>
+            <br>
+                <a href="/showreservationcepage">예약내역</a>
+                    <br>
+                        <a href="/updatepwdpage">비밀번호 변경하러 가기</a>
+                            <br>
 <script>
 $(function(){
     $('.makeinput').click(function(){

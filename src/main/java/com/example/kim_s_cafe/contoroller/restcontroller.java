@@ -48,15 +48,20 @@ public class restcontroller {
     @PostMapping("/auth/comfirm")
     public boolean checkemail(@RequestParam("email")String email) {
     
-        return userservice.checkemail(email);
+        return userservice.confrimEmail(email);
+    }
+    @PostMapping("/auth/joinprocess")
+    public boolean name(@Valid userdto userdto) {
+        System.out.println("회원가입시도"+userdto.getEmail());
+       return userservice.insertUser(userdto);
     }
     @PostMapping("updatepwdpageprocess")
     public String updatepwdpageprocess(@RequestParam("email")String email,@RequestParam("pwd")String pwd,@RequestParam("npwd")String npwd,@RequestParam("npwd2")String npwd2) {
        
         if(npwd.equals(npwd2)){
-            if(userservice.checkpwdwithdbpwd(pwd, email)){
+            if(userservice.checkPwdWithDbpwd(pwd, email)){
 
-                if(userservice.updatepwd(email, npwd2)){
+                if(userservice.updatePwd(email, npwd2)){
                     return "yes";
                 }
                 else{
@@ -122,29 +127,23 @@ public class restcontroller {
         
     }
     @PostMapping("/auth/email")
-    public String email(@RequestParam("email")String email) {
+    public boolean email(@RequestParam("email")String email) {
         System.out.println("email전송"+email);
         String randnum=utilservice.GetRandomNum(6);
-        userservice.sendrandomnumber(email,randnum);
-        emailUtilImpl.sendEmail("novb1492@naver.com", "안녕하세요 kim's cafe입니다", "인증번호는"+randnum+"입니다");
-        return "email";
+        userservice.sendEmailRandnum(email,randnum);
+        return emailUtilImpl.sendEmail(email, "안녕하세요 kim's cafe입니다", "인증번호는"+randnum+"입니다");
     }
     @PostMapping("/auth/emailpro")
-    public boolean emailpro(userdto userdto) {
-        System.out.println("인증처리중"+userdto.getEmail()+userdto.getRandnum());
-        return  userservice.checkRandomNumber(userdto);
-    }
-    @PostMapping("/auth/joinprocess")
-    public boolean name(@Valid userdto userdto) {
-        System.out.println("회원가입시도"+userdto.getEmail());
-       return userservice.insertmember(userdto);
+    public boolean emailpro(@RequestParam("email")String email,@RequestParam("randnum")String randnum) {
+        System.out.println("인증처리중"+email+randnum);
+        return  userservice.checkRandomNumber(email,randnum);
     }
     @PostMapping("/auth/temppwd")
-    public boolean temppwd(userdto userdto) {
-        System.out.println("비밀번호 변경시도 이메일 "+userdto.getEmail());
+    public boolean temppwd(@RequestParam("email")String email) {
+        System.out.println("비밀번호 변경시도 이메일 "+email);
         String temppwd=utilservice.GetRandomNum(8);
-        emailUtilImpl.sendEmail(userdto.getEmail(),"안녕하세요 kim's cafe입니다" ,"임시비밀번호 입니다 : "+temppwd);
-        return userservice.updatepwd(userdto.getEmail(), temppwd);
+        emailUtilImpl.sendEmail(email,"안녕하세요 kim's cafe입니다" ,"임시비밀번호 입니다 : "+temppwd);
+        return userservice.updatePwd(email, temppwd);
     }
   
     
