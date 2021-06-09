@@ -35,19 +35,7 @@ public class userdto {
 
     private String emailcheck;
     
-    @NotEmpty
     private String randnum;
 
-    public uservo DtoToUservo(userdto userdto) {
-        uservo uservo=new uservo();
-        uservo.setEmail(userdto.getEmail());
-        uservo.setName(userdto.getName());
-        uservo.setProvider(userdto.getProvider());
-        uservo.setProviderid(userdto.getProviderid());
-        uservo.setEmailcheck(userdto.getEmailcheck());
-        uservo.setRandnum(userdto.getRandnum());
-        uservo.setPwd(userdto.getPwd());
-        uservo.setRole(userdto.getRole());
-        return uservo;
-    }
+   
 }

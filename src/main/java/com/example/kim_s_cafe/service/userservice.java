@@ -40,8 +40,7 @@ public class userservice {
             String dbnumber=userdao.findByEmailRandnum(userdto.getEmail());
             System.out.println("dbnum"+dbnumber+"rand"+userdto.getRandnum());
             if(dbnumber.equals(userdto.getRandnum())){
-
-                userdao.updateemailcheck("true", userdto.getEmail());
+                userdao.updateEmailCheck("true", userdto.getEmail());
                 return yes;
             }
             
@@ -53,7 +52,7 @@ public class userservice {
     public boolean sendrandomnumber(String email,String randomnumber) {
 
         try {
-            System.out.println("랜덤넘버"+randomnumber);
+            //System.out.println("랜덤넘버"+randomnumber);
             userdao.upateEmailConfrimNum(randomnumber, email);
             return yes;
         } catch (Exception e) {
@@ -65,9 +64,8 @@ public class userservice {
 
         try {    
         BCryptPasswordEncoder encoder=security.encoderpwd();///암호리턴받고
-        uservo uservo=userdto.DtoToUservo(userdto);
-        String hashpwd=encoder.encode(uservo.getPwd());//자체함수 소환해서 해쉬해주고
-        uservo.setPwd(hashpwd);//셋해서
+        uservo uservo=new uservo(userdto);
+        uservo.setPwd(encoder.encode(uservo.getPwd()));//셋해서
         uservo.setRole("ROLE_USER");
         uservo.setEmailcheck("false");
         uservo.setRandnum(utilservice.GetRandomNum(6));

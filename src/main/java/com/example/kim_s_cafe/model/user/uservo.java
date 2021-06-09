@@ -49,4 +49,18 @@ public class uservo {
     
     @Column(name="randnum")
     private String randnum;
+
+    public uservo () {}
+
+    public uservo (userdto userdto) {
+        this.setEmail(userdto.getEmail());
+        this.setName(userdto.getName());
+        this.setProvider(userdto.getProvider());
+        this.setProviderid(userdto.getProviderid());
+        this.setEmailcheck(userdto.getEmailcheck());
+        this.setRandnum(userdto.getRandnum());
+        this.setPwd(userdto.getPwd());
+        this.setRole(userdto.getRole());
+    
+    }
 }

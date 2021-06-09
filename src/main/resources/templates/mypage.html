@@ -26,7 +26,6 @@
         <input type="button" class="emailconfrim" value="이메일 인증하기">
         <input type="text" th:value="${uservo.getEmail()}" disabled>
             <input type="button" class="makeinput" value="인증하기">
-                <div class="inputarea"></div>
                     <form action="/emailpro" method="post">
                         <input type="hidden" id="email" name="email" th:value="${uservo.getEmail()}">
                         <input type="text" name="randnum" placeholder="인증번호를입력해주세요">

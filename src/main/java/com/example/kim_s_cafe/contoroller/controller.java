@@ -44,7 +44,10 @@ public class controller {
     @Autowired
     private historyservice historyservice;
  
-
+    @GetMapping("/auth/findpwdpage")
+    public String findpwdpage() {
+        return "findpwdpage";
+    }
     @GetMapping("/auth/loginpage")
     public String loginpage() {
         return "loginpage";

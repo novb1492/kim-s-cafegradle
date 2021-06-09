@@ -25,5 +25,5 @@ public interface userdao extends JpaRepository<uservo,Integer> {///얘는 인터
     @Modifying 
     @Transactional
     @Query(value = "update users u set u.emailcheck=?1 where u.email=?2",nativeQuery = true)
-    public void updateemailcheck(String yes,String email);
+    public void updateEmailCheck(String yes,String email);
 }
