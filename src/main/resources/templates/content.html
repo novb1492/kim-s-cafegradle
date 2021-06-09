@@ -9,44 +9,43 @@
 </head>
 <body>
     <a href="/auth/index">홈</a>
+    <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
     <br>
     <div th:text="${#authentication.name}"></div>
-
-            <div th:with="vo= ${boardvo}" > <!--주석이 없네 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
-            제목<input type="text" rows="30" cols="1" th:value="${vo.getTitle}" disabled><!--이방법은 이제 안쓸거지만 "${'제목'+vo.getTitle}" 이렇게 출력가능20210608 -->
-            <div th:text="${'작성자'+vo.getEmail}"></div>
+            <!--주석이 없네<div th:with="vo= ${boardvo}" > 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
+            제목
+            <input type="text" rows="30" cols="1" th:value="${boardvo.getTitle}" disabled>
+            <div th:text="${'작성자'+boardvo.getEmail}">작성자</div>
             내용
             <br>
-            <textarea cols="100" rows="50" name="content" id="content" disabled>[[${vo.getContent}]]</textarea>
+            <textarea cols="100" rows="50" name="content" id="content" disabled>[[${boardvo.getContent}]]</textarea>
             <br>
-            <div th:text="${'조회수'+'&nbsp'+vo.getHit}"></div>
+            <div th:text="${'조회수'+'&nbsp'+boardvo.getHit}">조회수</div>
 
-            <div th:if="${#authentication.name==vo.getEmail}">
+            <div th:if="${#authentication.name==boardvo.getEmail}">
                 <form action="/updatecontent">
-                    <input type="hidden" id="bid" name="bid" th:value="${vo.getBid}">
-                    <input type="submit" id="update" value="수정">
-                </form>
-                    <input type="button" id="deletearticle" value="삭제">
-                </div>
-                <div id="errorcomment"></div>  
+                    <input type="hidden" id="bid" name="bid" th:value="${boardvo.getBid}">
+                        <input type="submit" id="update" value="수정">
+                            </form>
+                                <input type="button" id="deletearticle" value="삭제">
+            </div>
+            <div id="errorcomment"></div>  
             <br>
             <a href="/auth/boardlist">게시판</a>
             <br>
             댓글
             <div sec:authorize="isAuthenticated()">
-                <input type="text" id="comment" ><!--본문-->
-                <input type="hidden" id="bid" th:value="${vo.getBid}">
-                <input type="hidden" id="email" th:value="${#authentication.name}">
-                <input type="button" id="button" value="완료">
+                <input type="text" id="comment" ><!--댓글등록하는곳-->
+                    <input type="hidden" id="email" th:value="${#authentication.name}">
+                        <input type="button" id="insertCommentButton" value="완료">
             </div>
-    </div>
-            <div th:each="comment : ${array}">
-                작성자  <div th:text="${comment.getEmail}"></div>
-                내용    <input type="text"  class="commentinput" th:value="${comment.getComment}" disabled></input>
+
+            <div th:each="comment : ${array}"><!--댓글 출력하는곳-->
+                작성자<div th:text="${comment.getEmail}"></div>
+                내용  <input type="text" th:id="${comment.getCid}" class="commentinput" th:value="${comment.getComment}" disabled></input>
                 <div th:if="${#authentication.name==comment.getEmail}">
-                    <input type="button" th:id="${comment.getCid}" class="updateCommentButton" value="수정">
-                        <input type="button" th:id="${comment.getCid}" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->
-               
+                        <input type="button" th:id="${comment.getCid}" class="updateCommentButton" value="수정">
+                            <input type="button" th:id="${comment.getCid}" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->    
                 </div>    
                 <div sec:authorize="!isAuthenticated()">
                     <a href="#" class="replybutton">답글</a>
@@ -71,25 +70,51 @@
     
 $(function()
 { 
+    $('#insertCommentButton').click(function(){
+        $.ajax({
+            type:"post",
+            url:"/insertcomment",
+            data:{
+                "bid":$('#bid').val(),
+                "email":$('#email').val(),
+                "comment":$('#comment').val()
+            },
+            success:function(data){
+            if(data){
+                alert('댓글을 등록 했습니다');
+                location.href="/auth/content?bid="+$('#bid').val();
+            }else{
+                alert('다시 시도 바랍니다');
+            }
+        }
+        })
+    })
     $('.updateCommentButton').click(function(){
-       alert($(this).attr("id"));
+       $('#'+$(this).attr("id")).removeAttr('disabled');//와이렇게 붙혀서 쓰면된다 20210609 
+       //$(this).removeAttr('value');대박 value값만 지워짐
+       $(this).attr('value','확인');
+       $(this).attr('class','updateCommentButton2');
+
     })
     $('.replybutton').click(function(){
         $(this).append("<br><input type='text' class='reply' name='reply' placeholder='답글을 입력해주세요'><br>");
         $(this).append("<input type='button' class='replyinsertbutton'  value='완료'>");
         $(this).append("<input type='button' class='replycanclebutton'  value='취소'>");
     });
+    $('.updateCommentButton2').click(function(){
+       //여기는 나중에하자
+    })
     $('.deleteCommentButton').click(function(){
         $.ajax({
             type:"post",
             url:"/deletecomment",
             data:{
-                "cid":$(this).attr("id")
+                "cid":$(this).attr("id")///이게 클릭한 것의 id값을 가져온느것 name도 있고 등등 많다 20210609
             },
             success:function(data){
             if(data){
                 alert('댓글을 삭제 했습니다');
-                location.href="/auth/boardlist";
+                location.href="/auth/content?bid="+$('#bid').val();
             }else{
                 alert('삭제에 실패 했습니다 다시 시도 바랍니다');
             }
@@ -126,26 +151,7 @@ $(function()
         }else{
             $('#comment').css('background-color','white');
         }
-    })
-    $('#button').click(function(){
-        $.ajax({
-            type:"post",
-            url:"/insertcomment",
-            data:{
-                "bid":$('#bid').val(),
-                "comment":$('#comment').val(),
-                "email":$('#email').val()
-            },
-            success:function(data){
-            if(data){
-                location.href="/auth/content?bid="+$('#bid').val();
-            }else{
-                alert('등록에 실패 했습니다 다시 시도 바랍니다');
-            }
-        }
-        })
-    })
-    
+    }) 
 })
 </script>
 </body>

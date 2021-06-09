@@ -110,7 +110,12 @@ public class restcontroller {
     public boolean insertcomment(commentvo commentvo) {
         System.out.println("댓글을 시도하는 이메일 "+commentvo.getEmail());
       
-        return commentservice.insertcomment(commentvo);
+        return commentservice.insertComment(commentvo);
+    }
+    @PostMapping("updatecomment")
+    public boolean updatecomment(commentvo commentvo) {
+        System.out.println("댓글수정 이메일 "+commentvo.getEmail());
+        return commentservice.updateComment(commentvo);
     }
     @PostMapping("deletecomment")
     public String deletecomment(@RequestParam("cid")int cid) {

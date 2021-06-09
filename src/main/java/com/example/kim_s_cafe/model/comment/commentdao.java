@@ -16,10 +16,13 @@ public interface commentdao extends JpaRepository<commentvo,Integer> {
     ///이거같은데 table이름을 쓰는게 아니라 파일이름을 적어줘야하는거 같다 ㅁㅊ20210518
     @Query(value = "select count(*)from comment  where bid=?1",nativeQuery = true)
     int findallcountbyid(int bid);
+
+    commentvo findByCid(int cid);
     
- 
     @Modifying 
     @Transactional
     @Query(value = "DELETE FROM comment c WHERE c.bid=?1",nativeQuery = true) // 딜리트 네거티브 쿼리 쓰는법!!!!!!!!!!!!20210531 대박이다 인서트도 이렇게 가능하지 않을까..? 테스트 해봐야겠다!
     void deleteBybidNative(int bid); 
+
+
 }

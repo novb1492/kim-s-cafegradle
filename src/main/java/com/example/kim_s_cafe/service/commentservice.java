@@ -3,6 +3,8 @@ package com.example.kim_s_cafe.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.example.kim_s_cafe.model.comment.commentdao;
 import com.example.kim_s_cafe.model.comment.commentvo;
 
@@ -51,10 +53,23 @@ public class commentservice {
         System.out.println("댓글총페이지"+totalpages);
         return totalpages;
     }
-    public boolean insertcomment(commentvo commentvo) {
+    public boolean insertComment(commentvo commentvo) {
 
         try {
             commentdao.save(commentvo);
+            return yes;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return no;
+    }
+    @Transactional
+    public boolean updateComment(commentvo commentvo) {
+
+        try {
+            commentvo commentvo2=commentdao.findByCid(commentvo.getCid());
+            commentvo2.setComment(commentvo.getComment());
+            commentdao.save(commentvo2);
             return yes;
         } catch (Exception e) {
            e.printStackTrace();
