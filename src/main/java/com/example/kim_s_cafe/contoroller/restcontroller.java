@@ -126,7 +126,7 @@ public class restcontroller {
         System.out.println("email전송"+email);
         String randnum=utilservice.GetRandomNum(6);
         userservice.sendrandomnumber(email,randnum);
-        emailUtilImpl.sendEmail("novb1492@naver.com", "스프링을 이용한 메일 전송", "인증번호는"+randnum+"입니다");
+        emailUtilImpl.sendEmail("novb1492@naver.com", "안녕하세요 kim's cafe입니다", "인증번호는"+randnum+"입니다");
         return "email";
     }
     @PostMapping("emailpro")
