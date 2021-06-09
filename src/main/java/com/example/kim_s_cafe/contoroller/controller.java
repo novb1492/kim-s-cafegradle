@@ -154,19 +154,7 @@ public class controller {
         }
          return "updatecontent";  
     }
-    @PostMapping("deletecomment")
-    public String deletecomment(@RequestParam("bid")int bid,@RequestParam("cid")int cid,Model model,@RequestParam(value="page", defaultValue = "1") int currentpage ) {
-
-        System.out.println("삭제하는 댓글의 게시글번호"+bid+"삭제하는 댓글번호"+cid);
-        commentservice.deletecommentbycid(cid);
-        int totalpages=commentservice.totalcommentcount(bid);
-        model.addAttribute("boardvo", contentservice.getcontent(bid));
-        model.addAttribute("bid", bid);
-        model.addAttribute("array", commentservice.commentpagin(bid, currentpage, totalpages));
-        model.addAttribute("totalpage", totalpages);
-        model.addAttribute("currentpage", currentpage);
-        return "content";
-    }
+ 
     
 
 }

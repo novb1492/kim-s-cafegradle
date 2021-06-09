@@ -112,6 +112,14 @@ public class restcontroller {
       
         return commentservice.insertcomment(commentvo);
     }
+    @PostMapping("deletecomment")
+    public String deletecomment(@RequestParam("cid")int cid) {
+
+        System.out.println("삭제하는 댓글번호"+cid);
+        commentservice.deletecommentbycid(cid);
+  
+        return "content";
+    }
     @PostMapping("deletearticle")
     public boolean deletearticle(@RequestParam("bid")int bid) {
         boolean yorn=contentservice.deleteArticle(bid);

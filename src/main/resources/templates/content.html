@@ -44,13 +44,9 @@
                 작성자  <div th:text="${comment.getEmail}"></div>
                 내용    <input type="text"  class="commentinput" th:value="${comment.getComment}" disabled></input>
                 <div th:if="${#authentication.name==comment.getEmail}">
-                    <input type="hidden" class="cid" th:value="${comment.getCid}">
-                    <input type="button" class="updatecomment" value="수정">
-                    <form action="/deletecomment" method="POST">
-                        <input type="hidden" name="bid" th:value="${comment.getBid}">
-                        <input type="hidden" name="cid" th:value="${comment.getCid}">
-                        <input type="submit" value="삭제">
-                    </form>
+                    <input type="button" th:id="${comment.getCid}" class="updateCommentButton" value="수정">
+                        <input type="button" th:id="${comment.getCid}" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->
+               
                 </div>    
                 <div sec:authorize="!isAuthenticated()">
                     <a href="#" class="replybutton">답글</a>
@@ -74,16 +70,32 @@
 <script>
     
 $(function()
-{
-    $('.updatecomment').click(function(){
-        $('.commentinput').removeAttr('disabled');
+{ 
+    $('.updateCommentButton').click(function(){
+       alert($(this).attr("id"));
     })
     $('.replybutton').click(function(){
         $(this).append("<br><input type='text' class='reply' name='reply' placeholder='답글을 입력해주세요'><br>");
         $(this).append("<input type='button' class='replyinsertbutton'  value='완료'>");
         $(this).append("<input type='button' class='replycanclebutton'  value='취소'>");
     });
-
+    $('.deleteCommentButton').click(function(){
+        $.ajax({
+            type:"post",
+            url:"/deletecomment",
+            data:{
+                "cid":$(this).attr("id")
+            },
+            success:function(data){
+            if(data){
+                alert('댓글을 삭제 했습니다');
+                location.href="/auth/boardlist";
+            }else{
+                alert('삭제에 실패 했습니다 다시 시도 바랍니다');
+            }
+        }
+        })
+    })
     $('#deletearticle').click(function(){
         $.ajax({
             type:"post",
