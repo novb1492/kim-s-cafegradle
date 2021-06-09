@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body>
+    //tests
     <a href="/auth/index">홈</a>
     <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
     <br>
@@ -46,6 +47,7 @@
                 <div th:if="${#authentication.name==comment.getEmail}">
                         <input type="button" th:id="${comment.getCid}" class="updateCommentButton" value="수정">
                             <input type="button" th:id="${comment.getCid}" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->    
+                                <input type="button"  th:id="${comment.getCid}" class="updateCommentButton2" value="확인">
                 </div>    
                 <div sec:authorize="!isAuthenticated()">
                     <a href="#" class="replybutton">답글</a>
@@ -69,7 +71,12 @@
 <script>
     
 $(function()
-{ 
+{  var comment;
+
+    $('.commentinput').keyup(function(){
+        comment=$(this).val();
+    })
+
     $('#insertCommentButton').click(function(){
         $.ajax({
             type:"post",
@@ -93,7 +100,7 @@ $(function()
        $('#'+$(this).attr("id")).removeAttr('disabled');//와이렇게 붙혀서 쓰면된다 20210609 
        //$(this).removeAttr('value');대박 value값만 지워짐
        $(this).attr('value','확인');
-       $(this).attr('class','updateCommentButton2');
+       //$(this).attr('class','updateCommentButton2');
 
     })
     $('.replybutton').click(function(){
@@ -102,7 +109,22 @@ $(function()
         $(this).append("<input type='button' class='replycanclebutton'  value='취소'>");
     });
     $('.updateCommentButton2').click(function(){
-       //여기는 나중에하자
+       $.ajax({
+            type:"post",
+            url:"/updatecomment",
+            data:{
+                "comment":comment,
+                "cid":$(this).attr("id")
+            },
+            success:function(data){
+            if(data){
+                alert('댓글을 등록 했습니다');
+                location.href="/auth/content?bid="+$('#bid').val();
+            }else{
+                alert('다시 시도 바랍니다');
+            }
+        }
+        })
     })
     $('.deleteCommentButton').click(function(){
         $.ajax({

@@ -113,7 +113,7 @@ public class restcontroller {
     }
     @PostMapping("updatecomment")
     public boolean updatecomment(commentvo commentvo) {
-        System.out.println("댓글수정 이메일 "+commentvo.getEmail());
+        System.out.println("댓글수정 번호 "+commentvo.getCid());
         return commentservice.updateComment(commentvo);
     }
     @PostMapping("deletecomment")
