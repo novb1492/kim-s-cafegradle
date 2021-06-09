@@ -61,14 +61,14 @@ public class historyservice {
     }
     public int counthistorybyemail(String email) {
 
-        int count=historydao.countbyeamil(email);
+        int count=historydao.countByRemail(email);
         int totalpages=count/pagesize;
         if(count%pagesize>0){
             totalpages++;
         }
         return totalpages;
     }
-    public List<historyvo> gethistory(String email,int currentpage,int totalpages) {
+    public List<historyvo> getHistory(String email,int currentpage,int totalpages) {
         List<historyvo>array=new ArrayList<>();
         try {
             if(totalpages>1){

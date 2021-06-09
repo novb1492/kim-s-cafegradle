@@ -90,7 +90,7 @@ public class controller {
         model.addAttribute("checkdate",reservationservice.confirmdate(array));
         model.addAttribute("currentpage", currentpage);
         model.addAttribute("totalpages", totalpages);
-        model.addAttribute("harray", historyservice.gethistory(email,currentpage,totalpages));
+        model.addAttribute("harray", historyservice.getHistory(email,currentpage,totalpages));
         model.addAttribute("array",array);
         model.addAttribute("arraysize", array.size());
         return "showreservationcepage";

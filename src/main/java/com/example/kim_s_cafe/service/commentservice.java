@@ -44,7 +44,7 @@ public class commentservice {
     }
     public int totalcommentcount(int bid) {
 
-        int count=commentdao.findallcountbyid(bid);
+        int count=commentdao.countByBid(bid);
         int totalpages=count/pagesize;
         if(count%pagesize>0){
             totalpages++;

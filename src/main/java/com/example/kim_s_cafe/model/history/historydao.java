@@ -15,8 +15,8 @@ public interface historydao extends JpaRepository<historyvo,Integer> {
     @Query(value = "select *from history where remail=?1 order by hid desc limit ?2,?3",nativeQuery = true)
     List<historyvo>gethistorybyemail(String email,int first,int end);
 
-    @Query(value = "select count(*) from history where remail=?1",nativeQuery = true)
-    int countbyeamil(String email); 
+    //@Query(value = "select count(*) from history where remail=?1",nativeQuery = true)
+    int countByRemail(String email); 
 
     @Query(value = "select *from history where remail=?1 order by hid desc",nativeQuery = true)
     List<historyvo>gethistorybyemail2(String email);

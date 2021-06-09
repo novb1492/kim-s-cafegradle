@@ -14,8 +14,8 @@ public interface commentdao extends JpaRepository<commentvo,Integer> {
     List<commentvo> findByonebyone(int num,int first,int end);
         ////이거다 네거티브 ㅁㅊ 몇시간쨰 뒤졌는데 진짜...
     ///이거같은데 table이름을 쓰는게 아니라 파일이름을 적어줘야하는거 같다 ㅁㅊ20210518
-    @Query(value = "select count(*)from comment  where bid=?1",nativeQuery = true)
-    int findallcountbyid(int bid);
+    //@Query(value = "select count(*)from comment  where bid=?1",nativeQuery = true)
+    int countByBid(int bid);
 
     commentvo findByCid(int cid);
     
