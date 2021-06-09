@@ -13,11 +13,13 @@
     <br>
     <input type="email"  id="email"  placeholder="이메일을 적어 주세요"><input type="button" id="sendmail" value="인증번호전송">                  
     <div id="emailcheck"></div>
+    <input type="test" id="randnum" placeholder="인증번호를 입렵해주세요">
+    <br>
+    <input type="button" id="confrimrandnum" value="확인">
     
 
 <script>
  $(function(){
-     var email=$('#email').val();
     $('#email').on('keyup',function(){
       
       if($('#email').val().length>1)
@@ -51,9 +53,9 @@
     $('#sendmail').click(function(){
         $.ajax({
             type:"post",
-                url:"/email",
+                url:"/auth/email",
             data:{
-               "email":email
+               "email":$('#email').val()
             },
             success:function(data){
                 if(data){
@@ -64,6 +66,39 @@
             }
         });
     });
+    $('#confrimrandnum').click(function(){
+        $.ajax({
+            type:"post",
+            url:"/auth/emailpro",
+            data:{
+               "email":$('#email').val(),
+               "randnum":$('#randnum').val()
+            },
+            success:function(data){
+                if(data){
+                    alert('인증성공'); 
+                    $.ajax({
+                      type:"post",
+                      url:"/auth/temppwd",
+                      data:{
+                      "email":$('#email').val()
+                      },
+                      success:function(data){
+                        if(data){
+                          alert('임시비밀번호가 이메일로 전송되었습니다');
+                        }else{
+
+                        }
+                      }
+                    })
+                }else{
+                    alert('인증번호가 틀립니다');
+                }  
+            }
+        });
+    });
+
+
 
 
  })

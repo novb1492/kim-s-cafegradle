@@ -106,10 +106,11 @@ public class userservice {
             String hashpwd=bCryptPasswordEncoder.encode(pwd);
             uservo uservo=userdao.findByEmail(email);
             uservo.setPwd(hashpwd);
+            return yes;
         } catch (Exception e) {
            e.printStackTrace();
         }
-        return yes;
+        return no;
     }
 
 }

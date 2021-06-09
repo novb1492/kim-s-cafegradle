@@ -121,7 +121,7 @@ public class restcontroller {
         return false;
         
     }
-    @PostMapping("email")
+    @PostMapping("/auth/email")
     public String email(@RequestParam("email")String email) {
         System.out.println("email전송"+email);
         String randnum=utilservice.GetRandomNum(6);
@@ -129,7 +129,7 @@ public class restcontroller {
         emailUtilImpl.sendEmail("novb1492@naver.com", "안녕하세요 kim's cafe입니다", "인증번호는"+randnum+"입니다");
         return "email";
     }
-    @PostMapping("emailpro")
+    @PostMapping("/auth/emailpro")
     public boolean emailpro(userdto userdto) {
         System.out.println("인증처리중"+userdto.getEmail()+userdto.getRandnum());
         return  userservice.checkRandomNumber(userdto);
@@ -138,6 +138,13 @@ public class restcontroller {
     public boolean name(@Valid userdto userdto) {
         System.out.println("회원가입시도"+userdto.getEmail());
        return userservice.insertmember(userdto);
+    }
+    @PostMapping("/auth/temppwd")
+    public boolean temppwd(userdto userdto) {
+        System.out.println("비밀번호 변경시도 이메일 "+userdto.getEmail());
+        String temppwd=utilservice.GetRandomNum(8);
+        emailUtilImpl.sendEmail(userdto.getEmail(),"안녕하세요 kim's cafe입니다" ,"임시비밀번호 입니다 : "+temppwd);
+        return userservice.updatepwd(userdto.getEmail(), temppwd);
     }
   
     

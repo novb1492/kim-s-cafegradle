@@ -26,7 +26,7 @@
         <input type="button" class="emailconfrim" value="이메일 인증하기">
         <input type="text" th:value="${uservo.getEmail()}" disabled>
             <input type="button" class="makeinput" value="인증하기">
-                    <form action="/emailpro" method="post">
+                    <form action="/auth/emailpro" method="post">
                         <input type="hidden" id="email" name="email" th:value="${uservo.getEmail()}">
                         <input type="text" name="randnum" placeholder="인증번호를입력해주세요">
                         <input type="submit" value="제출">
@@ -46,7 +46,7 @@ $(function(){
     $('.makeinput').click(function(){
         $.ajax({
             type:"post",
-                url:"/email",
+                url:"/auth/email",
             data:{
                "email":$('#email').val()
             },
