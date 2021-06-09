@@ -29,27 +29,22 @@
                     <th>예약자이메일</th> 
                     <th>예약일자</th>
                 </tr>
-            <div th:with="array=${array}" ></div>
-                <tr th:each="num : ${#numbers.sequence(0,arraysize-1)}">
-                        <div th:if="${arraysize>0}">
-                                <td >[[${array.get(num).getRid}]]</td>
-                                <td>[[${array.get(num).getRequesthour}]]시~[[${array.get(num).getRequesthour+1}]]시</td><!--오 연산도 된다20210528-->
-                                <td>[[${array.get(num).getSeat}]]</td>   
-                                <td >[[${array.get(num).getRemail}]]</td>
-                                <td>[[${array.get(num).getCreated}]]</td>
-                                <td>
-                                <div th:if="${checkdate.get(num)}">
+                <tr th:each="array:${array}">
+                                <td >[[${array.getRid}]]</td>
+                                <td>[[${array.getRequesthour}]]시~[[${array.getRequesthour+1}]]시</td><!--오 연산도 된다20210528-->
+                                <td>[[${array.getSeat}]]</td>   
+                                <td >[[${array.getRemail}]]</td>
+                                <td>[[${array.getCreated}]]</td>
+                                <td>                         
                                 <form action="/reservationupdatepage" method="POST">
-                                    <input type="hidden" class="rid" name="rid" th:value="${array.get(num).getRid}">
-                                    <input type="hidden"  name="requesthour" th:value="${array.get(num).getRequesthour}">
-                                    <input type="hidden"  name="seat" th:value="${array.get(num).getSeat}">
-                                    <input type="hidden"  name="remail" th:value="${array.get(num).getRemail}">
-                                    <input type="hidden"  name="created" th:value="${array.get(num).getCreated}">
+                                    <input type="hidden" class="rid" name="rid" th:value="${array.getRid}">
+                                    <input type="hidden"  name="requesthour" th:value="${array.getRequesthour}">
+                                    <input type="hidden"  name="seat" th:value="${array.getSeat}">
+                                    <input type="hidden"  name="remail" th:value="${array.getRemail}">
+                                    <input type="hidden"  name="created" th:value="${array.getCreated}">
                                     <input type="submit" value="예약변경"></form>
                                 </form>
-                                <input type="button" class="cancle" value="예약취소">
-                            </div>
-                        </div>
+                                <input type="button" class="cancle" value="예약취소">  
                     </td>
                 </tr>
             </div>			     				     

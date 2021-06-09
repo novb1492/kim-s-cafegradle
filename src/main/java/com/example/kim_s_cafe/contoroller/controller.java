@@ -83,16 +83,13 @@ public class controller {
     }
     @GetMapping("showreservationcepage")
     public String showreservationcepage(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage,@AuthenticationPrincipal principaldetail principaldetail) {
-        reservationservice.check24();
         String email=principaldetail.getUservo().getEmail();
         int totalpages=historyservice.counthistorybyemail(email);
         List<reservationvo>array=reservationservice.findreservation(email);
-        model.addAttribute("checkdate",reservationservice.confirmdate(array));
         model.addAttribute("currentpage", currentpage);
         model.addAttribute("totalpages", totalpages);
         model.addAttribute("harray", historyservice.getHistory(email,currentpage,totalpages));
-        model.addAttribute("array",array);
-        model.addAttribute("arraysize", array.size());
+        model.addAttribute("array",reservationservice.confirmdate(array));
         return "showreservationcepage";
     }
     @PostMapping("reservationupdatepage")

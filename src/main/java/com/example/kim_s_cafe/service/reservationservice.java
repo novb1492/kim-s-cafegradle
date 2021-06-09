@@ -31,19 +31,17 @@ public class reservationservice {
     private utilservice utilservice;
 
     
-    public List<Boolean> confirmdate(List<reservationvo>array) {
+    public List<reservationvo> confirmdate(List<reservationvo>array) {
         if(array.size()>0){ 
-            List<Boolean>checkdate=new ArrayList<>();
             for(int i=0;i<array.size();i++){
                 timestampservice.setdates(array.get(i).getReservationdatetime());
                 boolean yorn=timestampservice.checktoday();
+                System.out.println(yorn+"ba");
                 if(yorn){
-                    checkdate.add(true);
-                }else{
-                    checkdate.add(false);
+                    array.remove(i);
                 }
             }
-            return checkdate;
+            return array;
         }
         return null;
     }

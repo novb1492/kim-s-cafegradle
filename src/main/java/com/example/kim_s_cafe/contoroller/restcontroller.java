@@ -74,7 +74,6 @@ public class restcontroller {
     }
     @PostMapping("reservationconfrim")
     public List<Integer> reservationconfirm(@RequestParam("seat")String seat) {
-        reservationservice.check24();
         return reservationservice.reservationconfirm(seat);
     }
     @PostMapping("reservationprocess")

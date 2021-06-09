@@ -22,7 +22,7 @@ public class timestampservice {
         LocalDateTime today = LocalDateTime.now();
         System.out.println(this.localDateTime+"비교할날짜"+today+"오늘날짜");
 
-        if(this.localDateTime.isBefore(today)){///쥑인다...
+        if(this.localDateTime.isBefore(today)==false){///쥑인다... is after는 지났다면 false반환
             return before;
         }
         return after;
