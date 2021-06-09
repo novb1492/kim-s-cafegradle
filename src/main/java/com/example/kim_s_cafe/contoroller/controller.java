@@ -16,6 +16,7 @@ import com.example.kim_s_cafe.service.historyservice;
 import com.example.kim_s_cafe.service.reservationservice;
 import com.example.kim_s_cafe.service.userservice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,9 +102,10 @@ public class controller {
     }
     @GetMapping("/auth/boardlist")
     public String boardlist(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {  
+       Page<boardvo>array=boardservice.getBoard(currentpage);
        model.addAttribute("search",false);
-       model.addAttribute("array", boardservice.getboards(currentpage));
-       model.addAttribute("totalpage", boardservice.getboards(currentpage).getTotalPages());
+       model.addAttribute("array", array);
+       model.addAttribute("totalpage", array.getTotalPages());
        model.addAttribute("currentpage", currentpage);
         return "boardlist";
         
@@ -116,13 +118,13 @@ public class controller {
     @GetMapping("/auth/search")
     public String search(@RequestParam("title")String title,Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {
         System.out.println("검색한 키워드 "+title);
-        int totalpages=boardservice.getsearchboardscount(title);
+        int totalpages=boardservice.getSearchAtBoardCount(title);
         System.out.println("검색한 키워드 총페이지 "+totalpages);
         model.addAttribute("title", title);
         model.addAttribute("search", true);
         model.addAttribute("currentpage", currentpage);
         model.addAttribute("totalpage", totalpages);
-        model.addAttribute("array", boardservice.getsearchboards(currentpage, title,totalpages));
+        model.addAttribute("array", boardservice.getSearchAtBoard(currentpage, title,totalpages));
         
         return "boardlist"; 
     }

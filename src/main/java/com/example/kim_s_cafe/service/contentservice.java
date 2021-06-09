@@ -16,6 +16,27 @@ public class contentservice {
 
     @Autowired
     private boarddao boarddao;
+
+    public boolean deleteArticle(int bid) {
+        try {
+            boarddao.deleteById(bid);
+            return yes;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return no;
+    }
+    public boolean insertArticle(boarddto boarddto) {
+        try {
+            boardvo boardvo=new boardvo(boarddto);
+            boarddao.save(boardvo);
+            return yes;
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        return no;
+        
+    }
  
 
     public boardvo getcontent(int bid) {

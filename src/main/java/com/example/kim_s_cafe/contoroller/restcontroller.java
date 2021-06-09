@@ -14,13 +14,11 @@ import com.example.kim_s_cafe.model.board.boarddto;
 import com.example.kim_s_cafe.model.comment.commentvo;
 import com.example.kim_s_cafe.model.reservation.reservationdto;
 import com.example.kim_s_cafe.model.user.userdto;
-import com.example.kim_s_cafe.service.boardservice;
 import com.example.kim_s_cafe.service.commentservice;
 import com.example.kim_s_cafe.service.contentservice;
 import com.example.kim_s_cafe.service.reservationservice;
 import com.example.kim_s_cafe.service.userservice;
 import com.example.kim_s_cafe.service.utilservice;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +32,6 @@ public class restcontroller {
     private userservice userservice;
     @Autowired
     private reservationservice reservationservice;
-    @Autowired
-    private boardservice boardservice;
     @Autowired
     private contentservice contentservice;
     @Autowired
@@ -102,7 +98,7 @@ public class restcontroller {
     @PostMapping("writearticleprocess")
     public boolean writearticleprocess(@Valid boarddto boarddto) {
 
-      return boardservice.insertarticle(boarddto);
+      return contentservice.insertArticle(boarddto);
     }
     @PostMapping("updatecontentprocess")
     public boolean updatecontentprocess(@Valid boarddto boarddto) {
@@ -118,7 +114,7 @@ public class restcontroller {
     }
     @PostMapping("deletearticle")
     public boolean deletearticle(@RequestParam("bid")int bid) {
-        boolean yorn=boardservice.deletearticle(bid);
+        boolean yorn=contentservice.deleteArticle(bid);
         boolean yorn2=commentservice.deletecommentbybid(bid);
         if(yorn&&yorn2){
             return true;
