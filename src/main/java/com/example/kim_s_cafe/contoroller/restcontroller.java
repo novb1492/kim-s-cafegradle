@@ -130,10 +130,9 @@ public class restcontroller {
         return "email";
     }
     @PostMapping("emailpro")
-    public String emailpro(@RequestParam("email")String email,@RequestParam("randomnumber")int randomnumber) {
-        System.out.println("인증처리중"+email+randomnumber);
-        userservice.checkrandomnumber(email, randomnumber);
-        return "mypage";
+    public boolean emailpro(userdto userdto) {
+        System.out.println("인증처리중"+userdto.getEmail()+userdto.getRandnum());
+        return  userservice.checkRandomNumber(userdto);
     }
     @PostMapping("/auth/joinprocess")
     public boolean name(@Valid userdto userdto) {

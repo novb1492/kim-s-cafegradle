@@ -58,7 +58,7 @@ public class principaloauth2userservice extends DefaultOAuth2UserService {
             uservo.setPwd(pwd);
             uservo.setRole(role);
             uservo.setEmailcheck("true");
-            uservo.setEmailconfirmnumber("yes");
+            uservo.setRandnum("yes");
             userdao.save(uservo);
         }   
        //회원가입 강제진행후 얘가 지정한 로그인성공 페이지로 보내준다

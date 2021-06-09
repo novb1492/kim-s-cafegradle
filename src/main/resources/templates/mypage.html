@@ -5,6 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <style>
+        .modal{ position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;}
+        .modal_content{width:400px; height:200px;background:#fff; border-radius:10px;position:relative; top:50%; left:50%;
+        margin-top:-100px; margin-left:-200px;text-align:center;box-sizing:border-box; padding:74px 0;line-height:23px; cursor:pointer;}
+        #canvas{ position: relative; top: 0%; }
+        #text-block {position: absolute;color: black;}
+    </style>
     <title>마이페이지</title>
 </head>
 <body>
@@ -16,10 +23,19 @@
     <div th:text="${uservo.getCreated()}"></div>
     <br>
     <div th:if="${uservo.getEmailcheck()!='true'}">
-        <input type="text" id="email"  th:value="${uservo.getEmail()}" disabled>
-            <input type="hidden" name="email" th:value="${uservo.getEmail()}">
-                <input type="button" id="makeinput" value="인증하기">
-                    <div id="inputarea"></div>
+        <input type="button" class="emailconfrim" value="이메일 인증하기">
+        <input type="text" th:value="${uservo.getEmail()}" disabled>
+            <input type="button" class="makeinput" value="인증하기">
+                <div class="inputarea"></div>
+                    <form action="/emailpro" method="post">
+                        <input type="hidden" id="email" name="email" th:value="${uservo.getEmail()}">
+                        <input type="text" name="randnum" placeholder="인증번호를입력해주세요">
+                        <input type="submit" value="제출">
+                    </form>
+
+    </div>
+    <div th:if="${uservo.getEmailcheck()=='true'}">
+        이메일인증이 완료되었습니다.
     </div>
     <br>
     <a href="/showreservationcepage">예약내역</a>
@@ -28,7 +44,7 @@
     <br>
 <script>
 $(function(){
-    $('#makeinput').click(function(){
+    $('.makeinput').click(function(){
         $.ajax({
             type:"post",
                 url:"/email",
@@ -38,21 +54,15 @@ $(function(){
             success:function(data){
                 if(data){
                     alert('인증번호전송'); 
-                    out();
                 }else{
-                    alert('죄송합니다 인증에 실패 했습니다 숫자가틀리거나 일시적 오류입니다');
-                    out();
+                    alert('죄송합니다 전송에 실패했습니다');
                 }  
                 }
-        })
-        $('#inputarea').append("<input type='text' name='randomnumber' placeholder='인증번호를 입력해주세요'><br><input type='button' id='emailpro' value='제출'><input type='button' id='cancleinputarea' value='취소'>")
-    })
-    $('#emailpro').click(function(){
-        alert('제출');
-    })
-    $('#cancleinputarea').click(function(){
-        $('#inputarea').remove();
-    })
+        });
+        $('.inputarea').append("<input type='text' name='randnum' placeholder='인증번호를 입력해주세요'><br><input type='button' class='emailpro' value='제출'><input type='button' id='cancleinputarea' value='취소'>");
+    });
+
+    
 })
 
 </script>

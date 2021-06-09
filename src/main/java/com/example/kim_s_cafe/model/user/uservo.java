@@ -47,6 +47,6 @@ public class uservo {
     @Column(name="emailcheck")
     private String emailcheck;
     
-    @Column(name="emailconfirmnumber")
-    private String emailconfirmnumber;
+    @Column(name="randnum")
+    private String randnum;
 }

@@ -35,13 +35,13 @@ public class userservice {
         }
      return no;
     }
-    public boolean checkrandomnumber(String email,int randomnumber) {
+    public boolean checkRandomNumber(userdto userdto) {
         try {
-            int dbnumber=userdao.findemailconfirmnumberbyemail(email);
-            System.out.println("dbnum"+dbnumber+"rand"+randomnumber);
-            if(dbnumber==randomnumber){
+            String dbnumber=userdao.findByEmailRandnum(userdto.getEmail());
+            System.out.println("dbnum"+dbnumber+"rand"+userdto.getRandnum());
+            if(dbnumber.equals(userdto.getRandnum())){
 
-                userdao.updateemailcheck("true", email);
+                userdao.updateemailcheck("true", userdto.getEmail());
                 return yes;
             }
             
@@ -70,7 +70,7 @@ public class userservice {
         uservo.setPwd(hashpwd);//셋해서
         uservo.setRole("ROLE_USER");
         uservo.setEmailcheck("false");
-        uservo.setEmailconfirmnumber(utilservice.GetRandomNum(6));
+        uservo.setRandnum(utilservice.GetRandomNum(6));
         userdao.save(uservo);///넣어준다!
         return yes;
         } catch (Exception e) {
