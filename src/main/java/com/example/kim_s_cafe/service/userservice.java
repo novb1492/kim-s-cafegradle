@@ -122,8 +122,10 @@ public class userservice {
     }
     public boolean confrimEmailCheck(@AuthenticationPrincipal principaldetail principaldetail) {
         if(principaldetail.getUservo().getEmailcheck().equals("true")){
+            System.out.println("이메일인증 완료사용자");
             return true;
         }
+        System.out.println("이메일인증 미완료사용자");
         return false;       
     }
 

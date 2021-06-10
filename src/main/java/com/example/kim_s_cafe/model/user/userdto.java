@@ -14,7 +14,7 @@ public class userdto {
     
     private int id;
 
-    @NotEmpty
+    @NotEmpty(message = "이메일이 빈칸입니다")
     @Email(message = "이메일형식으로 써주세요")
     private String email;
     
@@ -22,7 +22,7 @@ public class userdto {
     @Size(min = 4,message = "비밀번호가 짧습니다")
     private String pwd;
 
-    @NotEmpty
+    @NotEmpty(message = "이름이 빈칸입니다")
     private String name;
 
     private Timestamp created;

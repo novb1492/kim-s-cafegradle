@@ -133,7 +133,7 @@ public class restcontroller {
     @PostMapping("insertcomment")
     public boolean insertComment(commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
         System.out.println("댓글을 시도하는 이메일 "+commentdto.getEmail());
-      if(userservice.eqalsEmail(commentdto.getEmail(), principaldetail.getUservo().getEmail())){
+      if(userservice.confrimEmailCheck(principaldetail)){
             return commentservice.insertComment(commentdto);
       }
         return false;
