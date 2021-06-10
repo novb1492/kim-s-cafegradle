@@ -63,4 +63,15 @@ public class boardservice {
         }
         return array;
     }
+    public boolean eqalsEmail(String email,int bid) {
+
+        try {
+            if(email.equals(boarddao.findById(bid).get().getEmail())){
+                return true;
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return false;
+    }
 }

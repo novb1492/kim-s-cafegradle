@@ -12,7 +12,7 @@
         <br>
             <h1>글을 작성해주세요</h1>
                 <div id="errorcontent2"></div>
-                    <div th:text="'작성자'+'&nbsp'+${#authentication.name}" ></div>
+                    <div th:text="'작성자'+'&nbsp'+${#authentication.name}" ></div><!--value="${#authentication.name}"이렇게 꺼내 쓸수있다-->
                         <input type="hidden" id="email" th:value="${#authentication.name}" >
                             제목<input type="text" name="title" placeholder="30글자 이하로 입력해주세요" id="title"><div id="errortitle"></div>
                                 <br>
@@ -20,7 +20,7 @@
                                     <br> 
                                         <textarea cols="100" rows="50" name="content" id="content" placeholder="최대 입력글자는 1000자입니다"></textarea>
                                             <br>
-                                                <input type="button" id="button" value="완료">
+                                                <input type="button" id="insertArticleButton" value="완료">
     <script>
         $(function(){
          $('#content').on({
@@ -42,28 +42,27 @@
                  check=checkcondition($('#title'),0,30);
              }
          })
-         $('#button').click(function(){
+         $('#insertArticleButton').click(function(){
              if(true)//$('#content').val().length<=1000&&$('#content').val().length>0&&$('#title').val().length<=30&&$('#title').val().length>0)
              {
                 $.ajax({
                  type:"post",
-                 url:"writearticleprocess",
+                 url:"insertArticle",
                  data:{
                    "title":$('#title').val(),
                    "content":$('#content').val(),
                    "email":$('#email').val(),
                  },
                  success:function(data){
-                     if(data){
+                    if(data){
                      location.href="/auth/boardlist";
-                     }
-                     else{
-                         alert('문제가 생겼습니다');}       
+                    }else{
+                         alert('문제가 생겼습니다');
+                    }       
                  }       
                 })
              }
-             else{
-                 
+             else{      
                  alert('빈칸이 있거나 글자수가 초과합니다');
              }
          })

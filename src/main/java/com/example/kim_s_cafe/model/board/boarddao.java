@@ -16,6 +16,8 @@ public interface boarddao extends JpaRepository<boardvo,Integer> {
     
     @Query(value = "select *from board where title like %?1% order by bid desc",nativeQuery = true)
     public List<boardvo>findByTitleLikeOrderByBid(String title);
+
+
     
 
 }

@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class controller {
 
+
+
     @Autowired
     private userservice userservice;
     @Autowired
@@ -107,11 +109,6 @@ public class controller {
         return "boardlist";
         
     }
-    @GetMapping("/writearticle")
-    public String  writepage() {
-        
-        return "writearticle";
-    }
     @GetMapping("/auth/search")
     public String search(@RequestParam("title")String title,Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {
         System.out.println("검색한 키워드 "+title);
@@ -124,6 +121,11 @@ public class controller {
         model.addAttribute("array", boardservice.getSearchAtBoard(currentpage, title,totalpages));
         
         return "boardlist"; 
+    }
+    @GetMapping("/writearticlepage")
+    public String writepage() {
+  
+        return "writearticlepage";
     }
     @GetMapping("/auth/content")
     public String content(@RequestParam("bid")int bid,Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {

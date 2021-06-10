@@ -3,10 +3,12 @@ package com.example.kim_s_cafe.service;
 
 
 import com.example.kim_s_cafe.config.security;
+import com.example.kim_s_cafe.config.auth.principaldetail;
 import com.example.kim_s_cafe.model.user.userdao;
 import com.example.kim_s_cafe.model.user.userdto;
 import com.example.kim_s_cafe.model.user.uservo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,6 +113,18 @@ public class userservice {
            e.printStackTrace();
         }
         return no;
+    }
+    public boolean eqalsEmail(String email,String principaldetailEmail) {
+        if(email.equals(principaldetailEmail)){
+            return yes;
+        }
+        return no;     
+    }
+    public boolean confrimEmailCheck(@AuthenticationPrincipal principaldetail principaldetail) {
+        if(principaldetail.getUservo().getEmailcheck().equals("true")){
+            return true;
+        }
+        return false;       
     }
 
 }

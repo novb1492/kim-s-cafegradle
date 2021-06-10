@@ -11,6 +11,7 @@
     //tests
     <a href="/auth/index">홈</a>
     <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
+    <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기-->
     <br>
     <div th:text="${#authentication.name}"></div>
             <!--주석이 없네<div th:with="vo= ${boardvo}" > 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
@@ -37,8 +38,7 @@
             댓글
             <div sec:authorize="isAuthenticated()">
                 <input type="text" id="comment" ><!--댓글등록하는곳-->
-                    <input type="hidden" id="email" th:value="${#authentication.name}">
-                        <input type="button" id="insertCommentButton" value="완료">
+                    <input type="button" id="insertCommentButton" value="완료">
             </div>
 
             <div th:each="comment : ${array}"><!--댓글 출력하는곳-->
@@ -118,7 +118,7 @@ $(function()
             },
             success:function(data){
             if(data){
-                alert('댓글을 등록 했습니다');
+                alert('댓글을 수정 했습니다');
                 location.href="/auth/content?bid="+$('#bid').val();
             }else{
                 alert('다시 시도 바랍니다');
@@ -149,6 +149,7 @@ $(function()
             url:"/deletearticle",
             data:{
                 "bid":$('#bid').val(),
+                "email":$('#email').val(),
             },
             success:function(data){
             if(data){

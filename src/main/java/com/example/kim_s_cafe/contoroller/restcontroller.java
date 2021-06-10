@@ -9,24 +9,27 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.example.kim_s_cafe.config.auth.principaldetail;
 import com.example.kim_s_cafe.email.EmailUtilImpl;
 import com.example.kim_s_cafe.model.board.boarddto;
 import com.example.kim_s_cafe.model.comment.commentvo;
 import com.example.kim_s_cafe.model.reservation.reservationdto;
 import com.example.kim_s_cafe.model.user.userdto;
+import com.example.kim_s_cafe.service.boardservice;
 import com.example.kim_s_cafe.service.commentservice;
 import com.example.kim_s_cafe.service.contentservice;
 import com.example.kim_s_cafe.service.reservationservice;
 import com.example.kim_s_cafe.service.userservice;
 import com.example.kim_s_cafe.service.utilservice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class restcontroller {
-
 
     @Autowired
     private userservice userservice;
@@ -36,6 +39,8 @@ public class restcontroller {
     private contentservice contentservice;
     @Autowired
     private commentservice commentservice;
+    @Autowired
+    private boardservice boardservice;
     @Autowired
     private EmailUtilImpl emailUtilImpl;
     @Autowired
@@ -94,15 +99,35 @@ public class restcontroller {
         reservationservice.log(reservationvo, requesthour);
         return reservationservice.reservationupdate(reservationvo);
     }*/
-    @PostMapping("writearticleprocess")
-    public boolean writearticleprocess(@Valid boarddto boarddto) {
-
-      return contentservice.insertArticle(boarddto);
+    @GetMapping("confrimEmailCheck")
+    public boolean confrimEmailCheck(@AuthenticationPrincipal principaldetail principaldetail) {
+        return userservice.confrimEmailCheck(principaldetail);
     }
-    @PostMapping("updatecontentprocess")
-    public boolean updatecontentprocess(@Valid boarddto boarddto) {
+    @PostMapping("insertArticle")
+    public boolean insertArticle(@Valid boarddto boarddto,@AuthenticationPrincipal principaldetail principaldetail) {
+        if(userservice.eqalsEmail(boarddto.getEmail(), principaldetail.getUservo().getEmail())){
+            return contentservice.insertArticle(boarddto);
+        }
+        return false; 
+    }
+    @PostMapping("updateArtice")
+    public boolean updateArtice(@Valid boarddto boarddto) {
+       if(boardservice.eqalsEmail(boarddto.getEmail(), boarddto.getBid())){
+            return contentservice.updatecontent(boarddto);  
+       }
+        return false;
         
-        return contentservice.updatecontent(boarddto);
+    }
+    @PostMapping("deletearticle")
+    public boolean deleteArticle(boarddto boarddto) {
+        if(boardservice.eqalsEmail(boarddto.getEmail(),boarddto.getBid())){
+            boolean yorn=contentservice.deleteArticle(boarddto.getBid());
+            boolean yorn2=commentservice.deletecommentbybid(boarddto.getBid());
+            if(yorn&&yorn2){
+                return true;
+            }
+        }
+        return false;
         
     }
     @PostMapping("insertcomment")
@@ -124,16 +149,6 @@ public class restcontroller {
   
         return "content";
     }
-    @PostMapping("deletearticle")
-    public boolean deletearticle(@RequestParam("bid")int bid) {
-        boolean yorn=contentservice.deleteArticle(bid);
-        boolean yorn2=commentservice.deletecommentbybid(bid);
-        if(yorn&&yorn2){
-            return true;
-        }
-        return false;
-        
-    }
     @PostMapping("/auth/email")
     public boolean email(@RequestParam("email")String email) {
         System.out.println("email전송"+email);
@@ -153,6 +168,7 @@ public class restcontroller {
         emailUtilImpl.sendEmail(email,"안녕하세요 kim's cafe입니다" ,"임시비밀번호 입니다 : "+temppwd);
         return userservice.updatePwd(email, temppwd);
     }
+ 
   
     
 }
