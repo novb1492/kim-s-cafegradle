@@ -36,5 +36,13 @@ public class commentvo {
 
     @CreationTimestamp
     private Timestamp created;
+
+    public commentvo () {}
+
+    public commentvo (commentdto commentdto) {
+        this.bid=commentdto.getBid();
+        this.comment=commentdto.getComment();
+        this.email=commentdto.getEmail();
+    }
     
 }

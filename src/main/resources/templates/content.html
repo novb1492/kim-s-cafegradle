@@ -11,7 +11,7 @@
     //tests
     <a href="/auth/index">홈</a>
     <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
-    <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기-->
+    <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기 보안을 위해 항상 authen꺼내쓰자 왜 어차피 수정이 가능하다면 같은 사용자이니까-->
     <br>
     <div th:text="${#authentication.name}"></div>
             <!--주석이 없네<div th:with="vo= ${boardvo}" > 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
@@ -113,6 +113,7 @@ $(function()
             type:"post",
             url:"/updatecomment",
             data:{
+                "email":$('#email').val(),
                 "comment":comment,
                 "cid":$(this).attr("id")
             },
@@ -131,6 +132,7 @@ $(function()
             type:"post",
             url:"/deletecomment",
             data:{
+                "email":$('#email').val(),
                 "cid":$(this).attr("id")///이게 클릭한 것의 id값을 가져온느것 name도 있고 등등 많다 20210609
             },
             success:function(data){

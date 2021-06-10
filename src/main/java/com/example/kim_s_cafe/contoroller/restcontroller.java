@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import com.example.kim_s_cafe.config.auth.principaldetail;
 import com.example.kim_s_cafe.email.EmailUtilImpl;
 import com.example.kim_s_cafe.model.board.boarddto;
-import com.example.kim_s_cafe.model.comment.commentvo;
+import com.example.kim_s_cafe.model.comment.commentdto;
 import com.example.kim_s_cafe.model.reservation.reservationdto;
 import com.example.kim_s_cafe.model.user.userdto;
 import com.example.kim_s_cafe.service.boardservice;
@@ -131,23 +131,28 @@ public class restcontroller {
         
     }
     @PostMapping("insertcomment")
-    public boolean insertcomment(commentvo commentvo) {
-        System.out.println("댓글을 시도하는 이메일 "+commentvo.getEmail());
-      
-        return commentservice.insertComment(commentvo);
+    public boolean insertComment(commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
+        System.out.println("댓글을 시도하는 이메일 "+commentdto.getEmail());
+      if(userservice.eqalsEmail(commentdto.getEmail(), principaldetail.getUservo().getEmail())){
+            return commentservice.insertComment(commentdto);
+      }
+        return false;
     }
     @PostMapping("updatecomment")
-    public boolean updatecomment(commentvo commentvo) {
-        System.out.println("댓글수정 번호 "+commentvo.getCid());
-        return commentservice.updateComment(commentvo);
+    public boolean updateComment(commentdto commentdto) {
+        System.out.println("댓글수정 번호 "+commentdto.getCid());
+        if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
+            return commentservice.updateComment(commentdto);
+        }
+        return false;
     }
     @PostMapping("deletecomment")
-    public String deletecomment(@RequestParam("cid")int cid) {
-
-        System.out.println("삭제하는 댓글번호"+cid);
-        commentservice.deletecommentbycid(cid);
-  
-        return "content";
+    public boolean deleteComment(commentdto commentdto) {
+        System.out.println("삭제하는 댓글번호"+commentdto.getCid());
+        if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
+           return commentservice.deleteCommentByCid(commentdto.getCid());
+        }
+        return false;
     }
     @PostMapping("/auth/email")
     public boolean email(@RequestParam("email")String email) {

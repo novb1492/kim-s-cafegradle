@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
-
 import com.example.kim_s_cafe.model.comment.commentdao;
+import com.example.kim_s_cafe.model.comment.commentdto;
 import com.example.kim_s_cafe.model.comment.commentvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +53,10 @@ public class commentservice {
         System.out.println("댓글총페이지"+totalpages);
         return totalpages;
     }
-    public boolean insertComment(commentvo commentvo) {
+    public boolean insertComment(commentdto commentdto) {
 
         try {
+            commentvo commentvo=new commentvo(commentdto);
             commentdao.save(commentvo);
             return yes;
         } catch (Exception e) {
@@ -64,24 +65,26 @@ public class commentservice {
         return no;
     }
     @Transactional
-    public boolean updateComment(commentvo commentvo) {
+    public boolean updateComment(commentdto commentdto) {
 
         try {
-            commentvo commentvo2=commentdao.findByCid(commentvo.getCid());
-            commentvo2.setComment(commentvo.getComment());
-            commentdao.save(commentvo2);
+            commentvo commentvo=commentdao.findByCid(commentdto.getCid());
+            commentvo.setComment(commentdto.getComment());
+            commentdao.save(commentvo);
             return yes;
         } catch (Exception e) {
            e.printStackTrace();
         }
         return no;
     }
-    public void deletecommentbycid(int cid) {
+    public boolean deleteCommentByCid(int cid) {
         try {
             commentdao.deleteById(cid);
+            return yes;
         } catch (Exception e) {
            e.printStackTrace();
         }
+        return no;
         
     }
     public boolean deletecommentbybid(int bid) {
@@ -93,5 +96,15 @@ public class commentservice {
             e.printStackTrace();
         }
         return no;
+    }
+    public boolean eqalsEmail(String email,int cid) {
+        try {
+            if(email.equals(commentdao.findById(cid).get().getEmail()))
+            return yes;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return no;
+        
     }
 }
