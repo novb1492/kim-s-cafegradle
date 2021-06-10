@@ -29,5 +29,5 @@ public interface historydao extends JpaRepository<historyvo,Integer> {
     @Modifying 
     @Transactional
     @Query(value = "update history h set h.requesthour=?2,h.seat=?3,h.reservationdate=?4,h.created=?5 where h.rid=?1",nativeQuery = true)///20210603jpa update쿼리문쓰는법!
-    void updatebyrid(int rid,int requesthour,String seat,Timestamp reservationdate,Timestamp created);
+    void updateByRid(int rid,int requesthour,String seat,Timestamp reservationdate,Timestamp created);
 }

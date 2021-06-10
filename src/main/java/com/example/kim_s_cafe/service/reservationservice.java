@@ -46,14 +46,12 @@ public class reservationservice {
         return null;
     }
     @Transactional
-    public boolean reservationupdate(reservationvo reservationvo) {
+    public boolean updateReservation(reservationdto reservationdto,int requesthour) {
         try {
-            reservationvo.setSeat(reservationvo.getSeat());
-            reservationvo.setRequesthour(reservationvo.getRequesthour());
-            reservationvo.setReservationdatetime(utilservice.RequestHourToTimestamp(reservationvo.getRequesthour()));
-            reservationvo.setCreated(reservationvo.getCreated());
-            reservationdao.save(reservationvo);
-            historyservice.updatehistory(reservationvo);
+           reservationvo reservationvo=reservationdao.findById(reservationdto.getRid()).orElseThrow();
+            reservationvo.setRequesthour(requesthour);
+            reservationvo.setSeat(reservationdto.getSeat());
+            historyservice.updateHistory(reservationvo);
             return yes;
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,7 +59,7 @@ public class reservationservice {
         return no;
     }
 
-    public boolean deletereservation(int rid) {
+    public boolean deleteReservation(int rid) {
         try {
                 reservationdao.deleteById(rid);
                 historyservice.deletehistory(rid);
@@ -125,7 +123,8 @@ public class reservationservice {
         }
         return null;
     }
-    public boolean insertreservation(reservationdto reservationdto,List<Integer> requesthour) {
+    public boolean insertReservation(reservationdto reservationdto,List<Integer> requesthour) {
+            log(reservationdto,requesthour); 
             try {  
                 for(int i=0;i<requesthour.size();i++){
                     reservationdto.setRequesthour(requesthour.get(i));
@@ -146,5 +145,17 @@ public class reservationservice {
             reservationdao.deleteAll();
             System.out.println("24시가지나  모든 예약이 삭제됩니다");
         }
-    }   
+    } 
+    public boolean eqalsEmail(String email,int cid) {
+
+        try {
+            if(email.equals(reservationdao.findById(cid).get().getRemail())){
+                return yes;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return no;
+        
+    }  
 }

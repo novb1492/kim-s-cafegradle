@@ -78,27 +78,32 @@ public class restcontroller {
         }
     }
     @PostMapping("reservationconfrim")
-    public List<Integer> reservationconfirm(@RequestParam("seat")String seat) {
-        return reservationservice.reservationconfirm(seat);
+    public List<Integer> reservationConfirm(@RequestParam("seat")String seat,@AuthenticationPrincipal principaldetail principaldetail) {
+        if(userservice.confrimEmailCheck(principaldetail)){ 
+            return reservationservice.reservationconfirm(seat);
+        }
+        return null;
     }
     @PostMapping("reservationprocess")
-    public boolean reservationprocess(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526
-            
-            reservationservice.log(reservationdto,requesthour);        
-        return reservationservice.insertreservation(reservationdto,requesthour);
+    public boolean insertReservation(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour,@AuthenticationPrincipal principaldetail principaldetail) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526    
+        if(userservice.confrimEmailCheck(principaldetail)&&userservice.eqalsEmail(reservationdto.getRemail(),principaldetail.getUservo().getEmail())){
+            return reservationservice.insertReservation(reservationdto,requesthour);
+        }
+        return false;
+    }
+    @PostMapping("reservationupdateprocess")
+    public boolean updateReservation(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour) {
+        System.out.println("에약변경시도"+reservationdto.getRemail());
+        if(reservationservice.eqalsEmail(reservationdto.getRemail(), reservationdto.getRid())){
+            return reservationservice.updateReservation(reservationdto,requesthour.get(0));
+        }
+        return false;
     }
     @PostMapping("reservationcancleprocess")
-    public boolean reservationcancleprocess(@RequestParam("rid")int rid) {
+    public boolean deleteRerservation(@RequestParam("rid")int rid) {
         System.out.println("예약취소rid= "+rid);
-        return reservationservice.deletereservation(rid);
+        return reservationservice.deleteReservation(rid);
     }
-    /*@PostMapping("reservationupdateprocess")
-    public boolean reservationupdateprocess(reservationvo reservationvo,@RequestParam(value = "requesthour[]")List<Integer> requesthour) {
-        
-        System.out.println("변경시도");
-        reservationservice.log(reservationvo, requesthour);
-        return reservationservice.reservationupdate(reservationvo);
-    }*/
     @GetMapping("confrimEmailCheck")
     public boolean confrimEmailCheck(@AuthenticationPrincipal principaldetail principaldetail) {
         return userservice.confrimEmailCheck(principaldetail);

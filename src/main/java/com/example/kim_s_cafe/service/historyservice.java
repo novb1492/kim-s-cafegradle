@@ -2,14 +2,12 @@ package com.example.kim_s_cafe.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.kim_s_cafe.model.history.historydao;
 import com.example.kim_s_cafe.model.history.historyvo;
 import com.example.kim_s_cafe.model.reservation.reservationvo;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class historyservice {
@@ -31,13 +29,11 @@ public class historyservice {
         historyvo.setSeat(reservationvo.getSeat());
         return historyvo;
     }
-    
-    @Transactional
-    public void updatehistory(reservationvo reservationvo)
+
+    public void updateHistory(reservationvo reservationvo)
     {
         try {
-    
-            historydao.updatebyrid(reservationvo.getRid(),reservationvo.getRequesthour(),reservationvo.getSeat(),reservationvo.getReservationdatetime(),reservationvo.getCreated());
+            historydao.updateByRid(reservationvo.getRid(),reservationvo.getRequesthour(),reservationvo.getSeat(),reservationvo.getReservationdatetime(),reservationvo.getCreated());
         } catch (Exception e) {
             e.printStackTrace();
         }
