@@ -84,23 +84,23 @@ public class controller {
         return "reservationpage";
     }
     @GetMapping("showreservationcepage")
-    public String showreservationcepage(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage,@AuthenticationPrincipal principaldetail principaldetail) {
+    public String showReservationcePage(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage,@AuthenticationPrincipal principaldetail principaldetail) {
         String email=principaldetail.getUservo().getEmail();
         int totalpages=historyservice.counthistorybyemail(email);
-        List<reservationvo>array=reservationservice.findreservation(email);
+        List<reservationvo>array=reservationservice.findReservation(email);
         model.addAttribute("currentpage", currentpage);
         model.addAttribute("totalpages", totalpages);
         model.addAttribute("harray", historyservice.getHistory(email,currentpage,totalpages));
-        model.addAttribute("array",reservationservice.confirmdate(array));
+        model.addAttribute("array",reservationservice.confirmDate(array));
         return "showreservationcepage";
     }
     @PostMapping("reservationupdatepage")
-    public String reservationupdatepage(reservationvo reservationvo,Model model) {
+    public String reservationUpdatePage(reservationvo reservationvo,Model model) {
         model.addAttribute("reservationvo",reservationvo);
         return "reservationupdatepage";
     }
     @GetMapping("/auth/boardlist")
-    public String boardlist(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {  
+    public String boardList(Model model,@RequestParam(value="page", defaultValue = "1") int currentpage) {  
        Page<boardvo>array=boardservice.getBoard(currentpage);
        model.addAttribute("search",false);
        model.addAttribute("array", array);
@@ -123,7 +123,7 @@ public class controller {
         return "boardlist"; 
     }
     @GetMapping("/writearticlepage")
-    public String writepage() {
+    public String writePage() {
   
         return "writearticlepage";
     }
@@ -133,18 +133,18 @@ public class controller {
         System.out.println("들어온 글번호"+bid);
         
         try {
-            int totalpages=commentservice.totalcommentcount(bid);
+            int totalpages=commentservice.totalCommentCount(bid);
             model.addAttribute("currentpage", currentpage);
             model.addAttribute("totalpage", totalpages);
             model.addAttribute("boardvo", contentservice.getcontent(bid));
-            model.addAttribute("array", commentservice.commentpagin(bid, currentpage, totalpages));
+            model.addAttribute("array", commentservice.commentPage(bid, currentpage, totalpages));
         } catch (Exception e) {
            e.printStackTrace();
         }
         return "content";
     }
     @GetMapping("updatecontent")
-    public String updatecontent(@RequestParam("bid")int bid,Model model) {
+    public String updateContent(@RequestParam("bid")int bid,Model model) {
         
         boardvo vo=contentservice.getcontentnohit(bid);
         if(vo!=null){

@@ -19,7 +19,7 @@ public class reservationservice {
     private final boolean yes=true;
     private final boolean no=false;
     private final byte opentime=6;
-    private final byte endtime=26;
+    private final byte endtime=24;
 
     @Autowired
     private reservationdao reservationdao;
@@ -31,12 +31,12 @@ public class reservationservice {
     private utilservice utilservice;
 
     
-    public List<reservationvo> confirmdate(List<reservationvo>array) {
+    public List<reservationvo> confirmDate(List<reservationvo>array) {
         if(array.size()>0){ 
             for(int i=0;i<array.size();i++){
                 timestampservice.setdates(array.get(i).getReservationdatetime());
                 boolean yorn=timestampservice.checktoday();
-                System.out.println(yorn+"ba");
+                System.out.println(yorn+"시간이 지남");
                 if(yorn){
                     array.remove(i);
                 }
@@ -70,7 +70,7 @@ public class reservationservice {
         return no;
     }
 
-    public List<reservationvo> findreservation(String email) {
+    public List<reservationvo> findReservation(String email) {
         try {
             List<reservationvo>array=reservationdao.findByRemailOrderByRidDesc(email);
             return array;  
@@ -88,7 +88,7 @@ public class reservationservice {
             System.out.println("예약을 시도하는이메일 "+reservationdto.getRemail());
             System.out.println("예약을 시도하는이름 "+reservationdto.getRname());
     }  
-    public List<Integer> reservationconfirm(String seat) {
+    public List<Integer> reservationConfirm(String seat) {
 
         List<Integer>array2=new ArrayList<>();
 	    int hour = utilservice.gethour();

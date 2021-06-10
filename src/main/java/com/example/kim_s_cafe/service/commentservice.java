@@ -21,11 +21,8 @@ public class commentservice {
     @Autowired
     private commentdao commentdao;
 
-    public List<commentvo> commentpagin(int bid,int currentpage,int totalpages) {
-        
-        
+    public List<commentvo> commentPage(int bid,int currentpage,int totalpages) {
        List<commentvo>array=new ArrayList<>();
-
        try {
             if(totalpages>0){
                 int fisrt=(currentpage-1)*pagesize+1;
@@ -42,7 +39,7 @@ public class commentservice {
      
         return null;
     }
-    public int totalcommentcount(int bid) {
+    public int totalCommentCount(int bid) {
 
         int count=commentdao.countByBid(bid);
         int totalpages=count/pagesize;
@@ -87,7 +84,7 @@ public class commentservice {
         return no;
         
     }
-    public boolean deletecommentbybid(int bid) {
+    public boolean deleteCommentByBid(int bid) {
 
         try {
             commentdao.deleteBybidNative(bid);

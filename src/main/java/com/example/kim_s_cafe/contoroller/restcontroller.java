@@ -47,17 +47,17 @@ public class restcontroller {
     private utilservice utilservice;
     
     @PostMapping("/auth/comfirm")
-    public boolean checkemail(@RequestParam("email")String email) {
+    public boolean checkEmail(@RequestParam("email")String email) {
     
         return userservice.confrimEmail(email);
     }
     @PostMapping("/auth/joinprocess")
-    public boolean name(@Valid userdto userdto) {
+    public boolean insertUser(@Valid userdto userdto) {
         System.out.println("회원가입시도"+userdto.getEmail());
        return userservice.insertUser(userdto);
     }
     @PostMapping("updatepwdpageprocess")
-    public String updatepwdpageprocess(@RequestParam("email")String email,@RequestParam("pwd")String pwd,@RequestParam("npwd")String npwd,@RequestParam("npwd2")String npwd2) {
+    public String updatePwdProcess(@RequestParam("email")String email,@RequestParam("pwd")String pwd,@RequestParam("npwd")String npwd,@RequestParam("npwd2")String npwd2) {
        
         if(npwd.equals(npwd2)){
             if(userservice.checkPwdWithDbpwd(pwd, email)){
@@ -80,7 +80,7 @@ public class restcontroller {
     @PostMapping("reservationconfrim")
     public List<Integer> reservationConfirm(@RequestParam("seat")String seat,@AuthenticationPrincipal principaldetail principaldetail) {
         if(userservice.confrimEmailCheck(principaldetail)){ 
-            return reservationservice.reservationconfirm(seat);
+            return reservationservice.reservationConfirm(seat);
         }
         return null;
     }
@@ -127,7 +127,7 @@ public class restcontroller {
     public boolean deleteArticle(boarddto boarddto) {
         if(boardservice.eqalsEmail(boarddto.getEmail(),boarddto.getBid())){
             boolean yorn=contentservice.deleteArticle(boarddto.getBid());
-            boolean yorn2=commentservice.deletecommentbybid(boarddto.getBid());
+            boolean yorn2=commentservice.deleteCommentByBid(boarddto.getBid());
             if(yorn&&yorn2){
                 return true;
             }
@@ -167,12 +167,12 @@ public class restcontroller {
         return emailUtilImpl.sendEmail(email, "안녕하세요 kim's cafe입니다", "인증번호는"+randnum+"입니다");
     }
     @PostMapping("/auth/emailpro")
-    public boolean emailpro(@RequestParam("email")String email,@RequestParam("randnum")String randnum) {
+    public boolean emailPro(@RequestParam("email")String email,@RequestParam("randnum")String randnum) {
         System.out.println("인증처리중"+email+randnum);
         return  userservice.checkRandomNumber(email,randnum);
     }
     @PostMapping("/auth/temppwd")
-    public boolean temppwd(@RequestParam("email")String email) {
+    public boolean tempPwd(@RequestParam("email")String email) {
         System.out.println("비밀번호 변경시도 이메일 "+email);
         String temppwd=utilservice.GetRandomNum(8);
         emailUtilImpl.sendEmail(email,"안녕하세요 kim's cafe입니다" ,"임시비밀번호 입니다 : "+temppwd);
