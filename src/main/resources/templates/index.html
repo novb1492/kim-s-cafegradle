@@ -25,24 +25,10 @@
             <form action="/auth/email">
                 <input type="submit"value="email">
             </form>
-            <input type="button" id="1" class="button" value="tests">
+            <input type="button" id="1" class="button" onclick="" value="tests">
             <input type="button" id="2" class="button" value="tests2">
-  <script>
-      window.onload=function(){
-        var button=document.querySelector('.button');
-
-        button.addEventListener("click",function(){
-            var xhr = new XMLHttpRequest(); //new로 생성
-            xhr.open('POST', '/auth/test', true); //j쿼리 $ajax.({type,url},true가 비동기)
-            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");////이게없으면 psot전송불가 조금 찾았네
-            xhr.send("test=test"); /// ajax data부분
-            xhr.onload = function() { 
-                if(xhr.status==200){ // success:function(data)부분 통신 성공시 200반환
-                    alert(xhr.response);
-                }
-            }
-        })
-        }
-  </script>
+            homepage
+          
+            <script type="text/javascript" src="../static/ajaxlib.js"></script>
 </body>
 </html>
