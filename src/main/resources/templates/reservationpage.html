@@ -35,15 +35,13 @@
                     <a href="/mypage">마이페이지</a>
                     <a href="/logout">로그아웃</a>
                     <a href="/showreservationcepage">예약내역</a>
-                </div>
-    
                 <!--<form action="/reservationprocess" method="POST"> 보단 이제 ajax가 훨씬 디테일 하게 컨트롤된다-->
                     a-1<input type="radio" name="radio" class="seat" onclick="choiceseat('a-1')" ><!--radio중복선택 막는건 name을 통일하면 막힌다20210525-->
                     a-2<input type="radio" name="radio"  class="seat" onclick="choiceseat('a-2')">
                     a-3<input type="radio" name="radio"  class="seat" onclick="choiceseat('a-3')">
                     a-4<input type="radio" name="radio"  class="seat" onclick="choiceseat('a-4')">
-        </div>            
-              
+                </div>
+                </div>                 
                         <div class="modal">
                             <div class="modal_content">
                                 <br>
@@ -87,7 +85,7 @@
                     }  ///반복문 으로 input을 만들때는 append하면된다 20210528
                 }
                 else{
-                    alert('죄송합니다 예약에 실패 했습니다 예약이 다 찾거나 일시적 오류입니다');
+                    alert('이메일인증 부탁드립니다');
                     out();
                 }  
             }
