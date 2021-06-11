@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-    <title>Document</title>
+    <title>후기쓰기</title>
 </head>
 <body>
-    //articlessss
+    <h3>후기쓰기</h3>
     <a href="/auth/index">홈</a>
     <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
     <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기 보안을 위해 항상 authen꺼내쓰자 왜 어차피 수정이 가능하다면 같은 사용자이니까-->
@@ -74,11 +74,6 @@
     
 $(function()
 { 
-    $('.replyButton').click(function(){
-        $('#'+$(this).attr("id")+'reply').append("<input type='text' id="+$(this).attr("id")+"placeholder='답글을 입력해주세요'><br>");
-        $('#'+$(this).attr("id")+'reply').append("<input type='button'id="+$(this).attr("id")+" class='insertReplyButton'  value='완료'>");
-        $('#'+$(this).attr("id")+'reply').append("<input type='button'id="+$(this).attr("id")+"class='cancleReplyButton'  value='취소'>");
-    });
     $('#insertCommentButton').click(function(){
         $.ajax({
             type:"post",
@@ -160,13 +155,6 @@ $(function()
             }
         }
         })
-    })
-    $('#replybutton').click(function(){
-        $('#reply').append("<input type='text' name='reply' placeholder='댓글을 입력해주세요'>");
-        $('#canclereplybutton').append('<input type="button" id="canclereply" value="취소">');
-    })
-    $('#canclereplybutton').click(function(){
-        $('#replyarea').remove();
     })
     $('#comment').keyup(function(){
         if( $('#comment').val().length>50){

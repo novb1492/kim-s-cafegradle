@@ -44,6 +44,7 @@
                                     <input type="hidden"  name="created" th:value="${array.getCreated}">
                                     <input type="submit" value="예약변경"></form>
                                 </form>
+                                <input type="hidden" id="email" th:value="${#authentication.name}">
                                 <input type="button"  th:id="${array.getRid}+cancle" class="cancle" value="예약취소">  
                     </td>
                 </tr>
@@ -90,6 +91,7 @@ $(function(){
             type:"post",
             url:"/reservationcancleprocess",
             data:{
+               "email":$('#email').val(),
                "rid":rid.replace('cancle',"")
             },
             success:function(data){

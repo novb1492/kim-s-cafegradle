@@ -85,14 +85,14 @@ public class restcontroller {
         return null;
     }
     @PostMapping("insertReservation")
-    public boolean insertReservation(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour,@AuthenticationPrincipal principaldetail principaldetail) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526    
+    public boolean insertReservation(@Valid reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour,@AuthenticationPrincipal principaldetail principaldetail) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526    
         if(userservice.confrimEmailCheck(principaldetail)&&userservice.eqalsEmail(reservationdto.getRemail(),principaldetail.getUservo().getEmail())){
             return reservationservice.insertReservation(reservationdto,requesthour);
         }
         return false;
     }
     @PostMapping("reservationupdateprocess")
-    public boolean updateReservation(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour) {
+    public boolean updateReservation(@Valid reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour) {
         System.out.println("에약변경시도"+reservationdto.getRemail());
         if(reservationservice.eqalsEmail(reservationdto.getRemail(), reservationdto.getRid())){
             return reservationservice.updateReservation(reservationdto,requesthour.get(0));
@@ -100,9 +100,12 @@ public class restcontroller {
         return false;
     }
     @PostMapping("reservationcancleprocess")
-    public boolean deleteRerservation(@RequestParam("rid")int rid) {
+    public boolean deleteRerservation(@RequestParam("rid")int rid,@RequestParam("email")String email) {
         System.out.println("예약취소rid= "+rid);
-        return reservationservice.deleteReservation(rid);
+        if(reservationservice.eqalsEmail(email, rid)){
+            return reservationservice.deleteReservation(rid);
+        }
+        return false;
     }
     @GetMapping("confrimEmailCheck")
     public boolean confrimEmailCheck(@AuthenticationPrincipal principaldetail principaldetail) {
@@ -124,7 +127,7 @@ public class restcontroller {
         
     }
     @PostMapping("deletearticle")
-    public boolean deleteArticle(boarddto boarddto) {
+    public boolean deleteArticle(@Valid boarddto boarddto) {
         if(boardservice.eqalsEmail(boarddto.getEmail(),boarddto.getBid())){
             boolean yorn=contentservice.deleteArticle(boarddto.getBid());
             boolean yorn2=commentservice.deleteCommentByBid(boarddto.getBid());
@@ -136,7 +139,7 @@ public class restcontroller {
         
     }
     @PostMapping("insertcomment")
-    public boolean insertComment(commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
+    public boolean insertComment(@Valid commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
         System.out.println("댓글을 시도하는 이메일 "+commentdto.getEmail());
       if(userservice.confrimEmailCheck(principaldetail)){
             return commentservice.insertComment(commentdto);
@@ -144,7 +147,7 @@ public class restcontroller {
         return false;
     }
     @PostMapping("updatecomment")
-    public boolean updateComment(commentdto commentdto) {
+    public boolean updateComment(@Valid commentdto commentdto) {
         System.out.println("댓글수정 번호 "+commentdto.getCid());
         if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
             return commentservice.updateComment(commentdto);
@@ -152,7 +155,7 @@ public class restcontroller {
         return false;
     }
     @PostMapping("deletecomment")
-    public boolean deleteComment(commentdto commentdto) {
+    public boolean deleteComment(@Valid commentdto commentdto) {
         System.out.println("삭제하는 댓글번호"+commentdto.getCid());
         if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
            return commentservice.deleteCommentByCid(commentdto.getCid());
