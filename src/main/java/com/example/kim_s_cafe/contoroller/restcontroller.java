@@ -46,6 +46,12 @@ public class restcontroller {
     @Autowired
     private utilservice utilservice;
     
+    @GetMapping("/auth/test")
+    public String test(){
+
+        System.out.println("test");
+        return "false";
+    }
     @PostMapping("/auth/comfirm")
     public boolean checkEmail(@RequestParam("email")String email) {
     

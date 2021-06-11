@@ -25,6 +25,28 @@
             <form action="/auth/email">
                 <input type="submit"value="email">
             </form>
-  
+            <input type="button" id="1" class="button" value="tests">
+            <input type="button" id="2" class="button" value="tests2">
+            <input type="button" id="2" class="button" value="tests3">
+  <script>
+      window.onload=function(){
+        var button=document.querySelectorAll('.button');
+
+        button.addEventListener("click",function(){
+            var xhr = new XMLHttpRequest(); //new로 생성.
+            xhr.open('GET', '/auth/test', true); //open(http메서드, 요청을 처리할 페이지의 url, 요청이 비동기로 처리될 것인지를 지정하는 불리언)
+            xhr.send(); //준비된 요청을 전달. 괄호 내에 서버에 전달될 추가 정보 전달할 수도 있음.
+
+            //응답
+            xhr.onload = function(data) { //브라우저가 서버로부터 응답을 받으면 onload이벤트가 발생.
+           
+                alert(data);
+            
+                }
+        })
+      
+    
+        }
+  </script>
 </body>
 </html>
