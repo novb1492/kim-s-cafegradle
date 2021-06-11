@@ -46,10 +46,10 @@ public class restcontroller {
     @Autowired
     private utilservice utilservice;
     
-    @GetMapping("/auth/test")
-    public String test(){
+    @PostMapping("/auth/test")
+    public String test(@RequestParam("test")String test){
 
-        System.out.println("test");
+        System.out.println("test"+ test);
         return "false";
     }
     @PostMapping("/auth/comfirm")

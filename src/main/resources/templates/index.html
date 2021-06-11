@@ -27,25 +27,21 @@
             </form>
             <input type="button" id="1" class="button" value="tests">
             <input type="button" id="2" class="button" value="tests2">
-            <input type="button" id="2" class="button" value="tests3">
   <script>
       window.onload=function(){
-        var button=document.querySelectorAll('.button');
+        var button=document.querySelector('.button');
 
         button.addEventListener("click",function(){
-            var xhr = new XMLHttpRequest(); //new로 생성.
-            xhr.open('GET', '/auth/test', true); //open(http메서드, 요청을 처리할 페이지의 url, 요청이 비동기로 처리될 것인지를 지정하는 불리언)
-            xhr.send(); //준비된 요청을 전달. 괄호 내에 서버에 전달될 추가 정보 전달할 수도 있음.
-
-            //응답
-            xhr.onload = function(data) { //브라우저가 서버로부터 응답을 받으면 onload이벤트가 발생.
-           
-                alert(data);
-            
+            var xhr = new XMLHttpRequest(); //new로 생성
+            xhr.open('POST', '/auth/test', true); //j쿼리 $ajax.({type,url},true가 비동기)
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");////이게없으면 psot전송불가 조금 찾았네
+            xhr.send("test=test"); /// ajax data부분
+            xhr.onload = function() { 
+                if(xhr.status==200){ // success:function(data)부분 통신 성공시 200반환
+                    alert(xhr.response);
                 }
+            }
         })
-      
-    
         }
   </script>
 </body>
