@@ -47,10 +47,9 @@ public class restcontroller {
     private utilservice utilservice;
     
     @PostMapping("/auth/test")
-    public String test(@RequestParam("test")String test,@RequestParam("test2")String test2){
+    public String test(@RequestParam("test")String test){
 
         System.out.println("test"+ test);
-        System.out.println("test2"+ test2);
         return "false";
     }
     @PostMapping("/auth/comfirm")
