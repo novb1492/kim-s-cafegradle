@@ -19,21 +19,14 @@ public class historyservice {
     
     public historyvo inserthistory(reservationvo reservationvo) {
         
-        historyvo historyvo=new historyvo();
-        historyvo.setRid(reservationvo.getRid());
-        historyvo.setRequesthour(reservationvo.getRequesthour());
-        historyvo.setReservationdate(reservationvo.getReservationdatetime());
-        historyvo.setCreated(reservationvo.getCreated());
-        historyvo.setRemail(reservationvo.getRemail());
-        historyvo.setRname(reservationvo.getRname());
-        historyvo.setSeat(reservationvo.getSeat());
+        historyvo historyvo=new historyvo(reservationvo);
         return historyvo;
     }
 
     public void updateHistory(reservationvo reservationvo)
     {
         try {
-            historydao.updateByRid(reservationvo.getRid(),reservationvo.getRequesthour(),reservationvo.getSeat(),reservationvo.getReservationdatetime(),reservationvo.getCreated());
+            historydao.updateByRidNative(reservationvo.getRid(),reservationvo.getRequesthour(),reservationvo.getSeat(),reservationvo.getReservationdatetime(),reservationvo.getCreated());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +42,7 @@ public class historyservice {
     public void deletehistory(int rid) {
 
         try {
-            historydao.deletebyrid(rid);
+            historydao.deleteByRidNative(rid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,9 +63,9 @@ public class historyservice {
             if(totalpages>1){
                 int fisrt=(currentpage-1)*pagesize+1;
                 int end=fisrt+pagesize-1;
-                array=historydao.gethistorybyemail(email,fisrt-1,end-fisrt+1);
+                array=historydao.getHistoryByEmailNative(email,fisrt-1,end-fisrt+1);
             }else{
-                array=historydao.gethistorybyemail2(email);
+                array=historydao.getHistoryByEmail2Native(email);
             }
           
             return array;

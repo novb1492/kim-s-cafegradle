@@ -33,7 +33,7 @@ public class boardservice {
     public int getSearchAtBoardCount(String title) {
         int totalpages=0;
         try {
-            int count=boarddao.countByTitle(title);
+            int count=boarddao.countByTitleLikeNative(title);
             totalpages=count/pagesize;
             if(count%pagesize>0){
                 totalpages++;
@@ -42,7 +42,6 @@ public class boardservice {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
         return 0;
     }
     public List<boardvo> getSearchAtBoard(int currentpage,String title,int totalpages) {
@@ -53,9 +52,9 @@ public class boardservice {
             if(totalpages>1){
                 fisrt=(currentpage-1)*pagesize+1;
                 end=fisrt+pagesize-1; 
-                array=boarddao.findByTitleLikeOrderByBidLimit(title,fisrt-1,end-fisrt+1);
+                array=boarddao.findByTitleLikeOrderByBidLimitNative(title,fisrt-1,end-fisrt+1);
             }else{
-                array=boarddao.findByTitleLikeOrderByBid(title);
+                array=boarddao.findByTitleLikeOrderByBidNative(title);
             }
             System.out.println("검색완료 첫번째 게시글번호"+array.get(0).getBid());
         } catch (Exception e) {

@@ -39,10 +39,10 @@ public class userservice {
     }
     public boolean checkRandomNumber(String email,String random) {
         try {
-            String dbnumber=userdao.findByEmailRandnum(email);
+            String dbnumber=userdao.findByEmailRandnumNative(email);
             System.out.println("dbnum"+dbnumber+"rand"+random);
             if(dbnumber.equals(random.trim())){
-                userdao.updateEmailCheck("true", email);
+                userdao.updateEmailCheckNative("true", email);
                 return yes;
             }
             
@@ -55,7 +55,7 @@ public class userservice {
 
         try {
             //System.out.println("랜덤넘버"+randomnumber);
-            userdao.upateEmailConfrimNum(randomnumber, email);
+            userdao.upateEmailConfrimNumNative(randomnumber, email);
             return yes;
         } catch (Exception e) {
            e.printStackTrace();
@@ -94,7 +94,7 @@ public class userservice {
     public boolean checkPwdWithDbpwd(String pwd,String email) 
     {
         BCryptPasswordEncoder bCryptPasswordEncoder=security.encoderpwd();
-        String dbpwd=userdao.getpwd(email);
+        String dbpwd=userdao.getPwdNative(email);
         if(bCryptPasswordEncoder.matches(pwd, dbpwd)){
             return yes;
         }

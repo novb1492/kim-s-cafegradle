@@ -11,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.example.kim_s_cafe.model.reservation.reservationvo;
 
+import org.hibernate.annotations.CreationTimestamp;
 import lombok.Data;
+
 @Data
 @Table(name="history")
 @Entity
@@ -46,5 +48,19 @@ public class historyvo {
 
     @Column(name = "reservationdate",nullable = false)
     private Timestamp reservationdate;
+
+    public historyvo(){}
+
+    public historyvo(reservationvo reservationvo) {
+        this.remail=reservationvo.getRemail();
+        this.requesthour=reservationvo.getRequesthour();
+        this.reservationdate=reservationvo.getReservationdatetime();
+        this.rid=reservationvo.getRid();
+        this.rname=reservationvo.getRname();
+        this.seat=reservationvo.getSeat();
+        
+    }
+
+
 
 }

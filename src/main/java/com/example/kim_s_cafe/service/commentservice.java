@@ -27,7 +27,7 @@ public class commentservice {
             if(totalpages>0){
                 int fisrt=(currentpage-1)*pagesize+1;
                 int end=fisrt+pagesize-1;
-                array=commentdao.findByonebyone(bid,fisrt-1,end-fisrt+1);
+                array=commentdao.getCommentNative(bid,fisrt-1,end-fisrt+1);
                 }else{
                     currentpage=0;
                     totalpages=0;

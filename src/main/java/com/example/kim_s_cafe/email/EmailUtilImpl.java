@@ -24,9 +24,11 @@ public class EmailUtilImpl  {
           helper.setText(body);//내용
         } catch (MessagingException e) {
           e.printStackTrace();
+          System.out.println(toAddress+"에게 메일전송실패");
           return false;
         }
         sender.send(message);
+        System.out.println(toAddress+"에게 메일전송");
         return true;
       }
         
