@@ -32,18 +32,22 @@ public class reservationservice {
 
     
     public List<reservationvo> confirmDate(List<reservationvo>array) {
+        List<reservationvo>aList=new ArrayList<>();
         if(array.size()>0){ 
             for(int i=0;i<array.size();i++){
                 timestampservice.setdates(array.get(i).getReservationdatetime());
                 boolean yorn=timestampservice.checktoday();
-                if(yorn){
-                    System.out.println(yorn+"시간이 지남");
-                    array.remove(i);
+                if(yorn==false){
+                   aList.add(array.get(i));
                 }
+                System.out.println(array.get(i).getReservationdatetime()+"예약되어있는시간seat"+array.get(i).getSeat());
+                
             }
-            return array;
+            return aList;
         }
         return null;
+        //// list는 반복문중에 자유롭게 삭제 추가 불가 왜냐면 하나가 사라지거나이동하면 자동으로 안에 인덱스들  위치가바뀜 그래서 이터레이터를 사용해야하는데
+        ////안에 있는 reservatio객체가 배열형식이아니여서 못꺼냄 그래서 그냥 새로 하나만들고 리턴해줘야함 20210611
     }
     @Transactional
     public boolean updateReservation(reservationdto reservationdto,int requesthour) {
