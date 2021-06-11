@@ -17,8 +17,6 @@ public class reservationdto {
     
     private int rid;    
 
-    @NotNull
-    @NotEmpty
     private String rname;
 
     @Email

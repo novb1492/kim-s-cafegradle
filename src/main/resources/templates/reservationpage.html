@@ -52,7 +52,7 @@
                                 <div id="requesthourdiv"></div>
                                 <br>
                                 <input type="hidden" id="remail"  th:value="${#authentication.name}"><!--#붙히고 꺼내쓰면된다!20210528-->
-                                <input type="hidden" id="rname"  value="김준영">
+                                <input type="hidden" id="rname"  th:value="${#authentication.name}"><!--#붙히고 꺼내쓰면된다!20210528-->
                                 <input type="button" id="button"  value="예약">
                                 <input type="button" id="canclebutton" value="취소">
                             </div>
@@ -100,7 +100,7 @@
             });
             $.ajax({
                 type:"post",
-                url:"/reservationprocess",
+                url:"/insertReservation",
             data:{
                "seat":seat,
                "requesthour":requesthour,

@@ -84,7 +84,7 @@ public class restcontroller {
         }
         return null;
     }
-    @PostMapping("reservationprocess")
+    @PostMapping("insertReservation")
     public boolean insertReservation(reservationdto reservationdto,@RequestParam(value = "requesthour[]")List<Integer> requesthour,@AuthenticationPrincipal principaldetail principaldetail) { ///checkbox로 받을때 value = "파라미터이름[]" 과 List로만 해야한다 20210526    
         if(userservice.confrimEmailCheck(principaldetail)&&userservice.eqalsEmail(reservationdto.getRemail(),principaldetail.getUservo().getEmail())){
             return reservationservice.insertReservation(reservationdto,requesthour);

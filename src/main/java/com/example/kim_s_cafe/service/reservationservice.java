@@ -19,7 +19,7 @@ public class reservationservice {
     private final boolean yes=true;
     private final boolean no=false;
     private final byte opentime=6;
-    private final byte endtime=24;
+    private final byte endtime=23;
 
     @Autowired
     private reservationdao reservationdao;
@@ -36,8 +36,8 @@ public class reservationservice {
             for(int i=0;i<array.size();i++){
                 timestampservice.setdates(array.get(i).getReservationdatetime());
                 boolean yorn=timestampservice.checktoday();
-                System.out.println(yorn+"시간이 지남");
                 if(yorn){
+                    System.out.println(yorn+"시간이 지남");
                     array.remove(i);
                 }
             }
@@ -61,6 +61,7 @@ public class reservationservice {
 
     public boolean deleteReservation(int rid) {
         try {
+            System.out.println("취소할 예약번호 "+rid);
                 reservationdao.deleteById(rid);
                 historyservice.deletehistory(rid);
                 return yes;
