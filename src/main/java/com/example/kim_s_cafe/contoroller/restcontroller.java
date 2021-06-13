@@ -134,8 +134,8 @@ public class restcontroller {
         
     }
     @PostMapping("deletearticle")
-    public boolean deleteArticle(@Valid boarddto boarddto) {
-        if(boardservice.eqalsEmail(boarddto.getEmail(),boarddto.getBid())){
+    public boolean deleteArticle(@Valid boarddto boarddto,@AuthenticationPrincipal principaldetail principaldetail) {
+        if(boardservice.eqalsEmail(principaldetail.getUservo().getEmail(),boarddto.getBid())){
             boolean yorn=contentservice.deleteArticle(boarddto.getBid());
             boolean yorn2=commentservice.deleteCommentByBid(boarddto.getBid());
             if(yorn&&yorn2){

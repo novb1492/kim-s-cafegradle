@@ -38,15 +38,15 @@
             댓글
             <div sec:authorize="isAuthenticated()">
                 <input type="text" id="comment" ><!--댓글등록하는곳-->
-                    <input type="button" name="/insertcomment" class="insertCommentButton" value="완료">
+                    <input type="button"  class="insertCommentButton" value="완료">
             </div>
             <div th:each="comment : ${array}"><!--댓글 출력하는곳-->
                 <div th:text="'작성자'+${comment.getEmail}"></div>
                 내용 <input type="text"  th:class="${comment.getCid}+comment" th:value="${comment.getComment}" disabled></input>
                 <div th:if="${#authentication.name==comment.getEmail}">
                         <input type="button" th:id="${comment.getCid}"  class="updateCommentButton" value="수정">
-                            <input type="button" th:id="${comment.getCid}" name="/deletecomment" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->    
-                                <input type="button"  th:id="${comment.getCid}+update" name="/updatecomment" class="updateCommnetButton2" value="확인" disabled >
+                            <input type="button" th:id="${comment.getCid}" class="deleteCommentButton" value="삭제"><!--유레카 버튼마다 각 cid의 번호를 id로 줘버리면 된다 20210609-->    
+                                <input type="button"  th:id="${comment.getCid}+update" class="updateCommnetButton2" value="확인" disabled >
                                 <div th:id="${comment.getCid}+updateArea"></div>
                 </div>    
                 <div sec:authorize="isAuthenticated()">
@@ -74,24 +74,6 @@
     
 $(function()
 { 
-    $('#deletearticle').click(function(){
-        $.ajax({
-            type:"post",
-            url:"/deletearticle",
-            data:{
-                "bid":$('#bid').val(),
-                "email":$('#email').val(),
-            },
-            success:function(data){
-            if(data){
-                alert('글을 삭제 했습니다');
-                location.href="/auth/boardlist";
-            }else{
-                alert('삭제에 실패 했습니다 다시 시도 바랍니다');
-            }
-        }
-        })
-    })
     $('#comment').keyup(function(){
         if( $('#comment').val().length>50){
             $('#comment').css('background-color','pink');
