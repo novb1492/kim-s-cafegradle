@@ -147,25 +147,26 @@ public class restcontroller {
     }
     @PostMapping("insertcomment")
     public boolean insertComment(@Valid commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
-        System.out.println("댓글을 시도하는 이메일 "+commentdto.getEmail());
+        System.out.println("댓글을 시도하는 이메일 "+principaldetail.getUservo().getEmail());
       if(userservice.confrimEmailCheck(principaldetail)){
+            commentdto.setEmail(principaldetail.getUservo().getEmail());
             return commentservice.insertComment(commentdto);
       }
         return false;
     }
     @PostMapping("updatecomment")
-    public boolean updateComment(@Valid commentdto commentdto) {
+    public boolean updateComment(@Valid commentdto commentdto,@AuthenticationPrincipal principaldetail principaldetail) {
         System.out.println("댓글수정 번호 "+commentdto.getCid());
-        if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
+        if(commentservice.eqalsEmail(principaldetail.getUservo().getEmail(),commentdto.getCid())){
             return commentservice.updateComment(commentdto);
         }
         return false;
     }
     @PostMapping("deletecomment")
-    public boolean deleteComment(@Valid commentdto commentdto) {
-        System.out.println("삭제하는 댓글번호"+commentdto.getCid());
-        if(commentservice.eqalsEmail(commentdto.getEmail(), commentdto.getCid())){
-           return commentservice.deleteCommentByCid(commentdto.getCid());
+    public boolean deleteComment(@RequestParam("cid")int cid,@AuthenticationPrincipal principaldetail principaldetail) {
+        System.out.println("삭제하는 댓글번호"+cid);
+        if(commentservice.eqalsEmail(principaldetail.getUservo().getEmail(), cid)){
+           return commentservice.deleteCommentByCid(cid);
         }
         return false;
     }
