@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
     <title>후기쓰기</title>
 </head>
 <body>
@@ -70,18 +69,5 @@
                 </div>
             <div >[[${currentpage}]]/[[${totalpage}]]</div>
             <script src="../static/ajaxlib.js"></script>
-<script>
-    
-$(function()
-{ 
-    $('#comment').keyup(function(){
-        if( $('#comment').val().length>50){
-            $('#comment').css('background-color','pink');
-        }else{
-            $('#comment').css('background-color','white');
-        }
-    }) 
-})
-</script>
 </body>
 </html>

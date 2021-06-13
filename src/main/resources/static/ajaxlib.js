@@ -1,5 +1,4 @@
 window.onload=function(){
-
 ////////////////////////////////////////comment에 관련된 함수들20210613
         //댓글등록
         var insertcomment=document.querySelector('.insertCommentButton');
@@ -67,8 +66,10 @@ window.onload=function(){
         xhr.onload = function() { 
             if(xhr.status==200){ // success:function(data)부분 통신 성공시 200반환
                 if(xhr.response){
-                    alert('댓글등록성공');
+                    alert('00에성공');
                     location.href=sucsessurl;            
+                }else{
+                    alert('00에 싪패');
                 }
             }
         }
