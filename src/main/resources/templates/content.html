@@ -8,10 +8,10 @@
     <title>후기쓰기</title>
 </head>
 <body>
-    <h3>후기쓰기</h3>
+    <h3>후기쓰기</h3>sdwsddfs 
     <a href="/auth/index">홈</a>
-    <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
-    <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기 보안을 위해 항상 authen꺼내쓰자 왜 어차피 수정이 가능하다면 같은 사용자이니까-->
+        <input type="hidden" id="bid" th:value="${boardvo.getBid}"><!--bid여기-->
+            <input type="hidden" id="email" th:value="${#authentication.name}"><!--이메일여기 보안을 위해 항상 authen꺼내쓰자 왜 어차피 수정이 가능하다면 같은 사용자이니까-->
     <br>
     <div th:text="${#authentication.name}"></div>
             <!--주석이 없네<div th:with="vo= ${boardvo}" > 20210531 이렇게 with를 쓰면 그 div안에서 객체를 변수처럼 쓸수있다! 그냥 궁금해서 해본거다-->
@@ -38,7 +38,7 @@
             댓글
             <div sec:authorize="isAuthenticated()">
                 <input type="text" id="comment" ><!--댓글등록하는곳-->
-                    <input type="button" id="insertCommentButton" value="완료">
+                    <input type="button" name="/insertcomment" class="insertCommentButton" value="완료">
             </div>
 
             <div th:each="comment : ${array}"><!--댓글 출력하는곳-->
@@ -75,24 +75,6 @@
     
 $(function()
 { 
-    $('#insertCommentButton').click(function(){
-        $.ajax({
-            type:"post",
-            url:"/insertcomment",
-            data:{
-                "bid":$('#bid').val(),
-                "comment":$('#comment').val()
-            },
-            success:function(data){
-            if(data){
-                alert('댓글을 등록 했습니다');
-                location.href="/auth/content?bid="+$('#bid').val();
-            }else{
-                alert('다시 시도 바랍니다');
-            }
-        }
-        })
-    })
     $('.updateCommentButton').click(function(){
         var cid=$(this).attr("id") 
         $('.'+cid+'comment').removeAttr('disabled');//와이렇게 붙혀서 쓰면된다 20210609 
