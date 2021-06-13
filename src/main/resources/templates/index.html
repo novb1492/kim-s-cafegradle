@@ -7,9 +7,6 @@
     <title>homepage</title>
 </head>
 <body>
-
-    we
-
     <div sec:authorize="!isAuthenticated()"><!--세션을 이렇게 model로 안넘겨도 그냥 바로 꺼내쓸수 있다 20210515 편리하다-->
             <a href="/auth/joinpage">회원가입</a>
                 <a href="/auth/loginpage">로그인</a>
@@ -22,14 +19,5 @@
     </div>
     <a href="/auth/boardlist">후기보기</a>
         <a href="/auth/reservationpage">예약하기</a>
-            <input type="hidden" name="domment" class="78">
-            <input type="button" id="78" name="/auth/test" class="button" value="tests">
-            <input type="button" id="78" name="/auth/test" class="button" value="tests2">
-            <input type="hidden" name="hello" class="79">
-            <input type="button" id="79" name="/auth/test" class="button" value="tests">
-            <input type="button" id="79" name="/auth/test" class="button" value="tests2">
-            homepage
-          
-            <script type="text/javascript" src="../static/ajaxlib.js"></script>
 </body>
 </html>

@@ -38,6 +38,17 @@ window.onload=function(){
                 doajax(url,data,suurl);              
             });
         });
+        //css
+        var commentcss=document.getElementById('comment');
+        commentcss.addEventListener('keyup',function(){
+             if(commentcss.value.length>50){
+                commentcss.style.backgroundColor='red';
+                alert('댓글이 50글자 초과하였습니다');
+             }else{
+                commentcss.style.backgroundColor='white';
+             }
+        })
+}
 ///////////////////////////////////////게시글삭제
     var deletearticle=document.getElementById('deletearticle');
     deletearticle.addEventListener('click',function(){
@@ -63,12 +74,6 @@ window.onload=function(){
         }
         
     }
-/////////////////////////////////////////////css수정하는곳
-    var commnetcss=document.getElementById('commnet');
-    commnetcss.addEventListener('keyup',function(){
-        if(commnetcss.value.lenght>50){
-            alert('d50');
-        }
-    })
-}
+
+
 
