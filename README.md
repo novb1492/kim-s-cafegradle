@@ -1,6 +1,10 @@
 ﻿# kim-s-cafegradle
 
-blogkimscafe에서 이후로 진행중 
+현재는 작동하지 않습니다
+blogkimscafe에서 이후로 진행중 입니다
+
+this project is not working 
+if you want see more than go to blogkimscafe
 
 앞으로 maven보다는 gradle로 작업할것이다
 점점올라오고 있다고도 하고 더빠르기도 하다고한다
@@ -59,6 +63,8 @@ adim만 접근 할 수있는
 페이지 만들기 
 
 결제시스템
+
+
 
  
 
